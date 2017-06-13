@@ -1,8 +1,7 @@
 <?php
-  require_once ('Connections/config.php'); ?>
-<?php
-  require_once ('funciones.php'); ?>
-<?php
+  require_once ('Connections/config.php');
+  require_once ('funciones.php');
+  
   //initialize the session
   if (!isset($_SESSION)) {
       session_start();
@@ -118,7 +117,7 @@
           $mensaje = 'No se pudieron enviar los datos para agregar tu taller, por favor, intentalo más tarde.';
       }
   }
-
+    
   include_once 'partials/header.php';
   ?>
 <div class="cuadro-uno">
@@ -288,17 +287,20 @@
         <?php
           }
           else { ?>
-        <form ACTION="<?php
-          echo $url_relativa; ?>#agrega_taller" METHOD="POST" id="formcontacto" name="formcontacto">
+        <form ACTION="<?php echo $url_relativa; ?>contactos.php" METHOD="POST" id="formcontacto" name="formcontacto">
           <div class="rigth">
-            <li><input name="nombreyapellido" type="text" id="nombreyapellido" placeholder="Nombre y Apellido" title="Nombre y Apellido" maxlength="250"></li>
-            <li><input name="mailotelefono" type="text" id="mailotelefono" placeholder="Mail o Teléfono" title="Mail o Teléfono" maxlength="250"></li>
+            <li><input name="nombre" type="text" id="nombre" placeholder="Nombre y Apellido" title="Nombre y Apellido" maxlength="250"></li>
+            <li><input name="mail_telefono" type="text" id="mailotelefono" placeholder="Mail o Teléfono" title="Mail o Teléfono" maxlength="250"></li>
             <li><input name="taller" type="text" id="taller" placeholder="Taller" title="Taller" maxlength="250"><br></li>
             <li>
               <span class="login-pop">
-              <input type="hidden" name="MM_send" value="formcontacto">
+                    <button class="boton-b" type="submit" name="MM_send" value="formcontacto">
+                    ENVIAR!
+                    </button>
               </span>
+              <!--
               <div class="boton-b"><a href="#" onClick="MM_validateForm('nombreyapellido','','R','mailotelefono','','R','taller','','R');if( document.MM_returnValue){document.formcontacto.submit();}">ENVIAR!</a></div>
+              -->
             </li>
           </div>
         </form>
@@ -370,8 +372,8 @@
 </div>
 <!--c4-->
 <?php
-  include_once 'partials/footer.php'; ?>
-<?php
+  include_once 'partials/footer.php'; 
+
   mysql_free_result($registros);
   mysql_free_result($registros2);
   mysql_free_result($registros3);

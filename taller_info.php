@@ -1,6 +1,8 @@
-<?php require_once('Connections/config.php'); ?>
-<?php require_once('funciones.php'); ?>
-<?php
+<?php 
+require_once('Connections/config.php');
+require_once('funciones.php');
+require_once('partials/header.php');
+  
 //initialize the session
 if (!isset($_SESSION)) {
   session_start();
@@ -203,149 +205,6 @@ $registro4 = mysql_query($query_registro4, $config) or die(mysql_error());
 $row_registro4 = mysql_fetch_assoc($registro4);
 $totalRows_registro4 = mysql_num_rows($registro4);
 ?>
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-<head>
-<meta charset="utf-8">
-<meta name="description" content="De la Grúa | Guía colectiva de talleres para autos y motos.">
-<meta name="keywords" content="rectificacion,electricidad,reparacion,chaperia">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-<meta property="og:title" content="<?php echo $row_registro['nombre']; ?>" />
-<meta property="og:description" content="DE LA GRUA | Guía colectiva de talleres para autos y motos" />
-<meta property="og:image" content="http://www.delagrua.com/img/logos/dlg_fc.png" />
-
-<title>DE LA GRUA | Guía colectiva de talleres para autos y motos</title>
-<link rel="icon" href="favicon.png" type="image/png" />
-<link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
-<link rel="shortcut icon" href="favicon.ico" /><meta name="description" content="">
-<meta name="description" content="">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="css/normalize.min.css">
-<link rel="stylesheet" href="css/main.css">
-<link href="css/grua.css" rel="stylesheet" type="text/css">
-<link href="fonts/fuentes.css" rel="stylesheet" type="text/css">
-<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-54692324-1', 'auto');
-  ga('send', 'pageview');
-function MM_openBrWindow(theURL,winName,features) { //v2.0
-  window.open(theURL,winName,features);
-}
-</script>
-<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
-<script src="js/main.js"></script>
-<!-- fancyapps -->
-<!-- <script type="text/javascript" src="js/fancyapps/jquery-1.10.1.min.js"></script>-->
-<script type="text/javascript" src="js/fancyapps/jquery.fancybox.js?v=2.1.5"></script>
-<link rel="stylesheet" type="text/css" href="css/fancyapps/jquery.fancybox.css?v=2.1.5" media="screen" />
-<script type="text/javascript">
-$(document).ready(function() {
-  $('.fancybox').fancybox({
-    type: 'iframe',
-    'padding' : 0,
-    'autoSize': true,
-	'width': '360',
-	'height': '100%'
-  });
-});
-</script>
-<!-- fin fancyapps -->
-<!-- Nivo Slider  -->
-<link rel="stylesheet" href="css/nivo-slider/default/default.css" type="text/css" media="screen" />
-<link rel="stylesheet" href="css/nivo-slider/nivo-slider.css" type="text/css" media="screen" />
-<!--<script type="text/javascript" src="js/nivo-slider/jquery-1.9.0.min.js"></script>-->
-<script type="text/javascript" src="js/nivo-slider/jquery.nivo.slider.js"></script>
-<script type="text/javascript">
-$(window).load(function() {
-$('#slider').nivoSlider({manualAdvance: true});
-});
-</script>
-<!-- fin Nivo Slider  -->
-<script>
-function MM_validateForm() { //v4.0
-  if (document.getElementById){
-    var i,p,q,nm,test,num,min,max,errors='',args=MM_validateForm.arguments;
-    for (i=0; i<(args.length-2); i+=3) { test=args[i+2]; val=document.getElementById(args[i]);
-      if (val) { nm=val.name; if ((val=val.value)!="") {
-        if (test.indexOf('isEmail')!=-1) { p=val.indexOf('@');
-          if (p<1 || p==(val.length-1)) errors+= +nm+' debe contener un email correcto.\n';
-        } else if (test!='R') { num = parseFloat(val);
-          if (isNaN(val)) errors+='- '+nm+' must contain a number.\n';
-          if (test.indexOf('inRange') != -1) { p=test.indexOf(':');
-            min=test.substring(8,p); max=test.substring(p+1);
-            if (num<min || max<num) errors+='- '+nm+' must contain a number between '+min+' and '+max+'.\n';
-      } } } else if (test.charAt(0) == 'R') errors += nm+' es requerido.\n'; }
-    } if (errors) alert('Error:\n'+errors);
-    document.MM_returnValue = (errors == '');
-} }
-
-function activar(imagen) {
-  document.getElementById(imagen).src = "img/iconos/estrellita-amarilla.png";
- }
- function desactivar(imagen) {
-  document.getElementById(imagen).src = "img/iconos/estrellita-gris.png";
- }
-</script>
-</head>
-<body>
-<!--[if lt IE 7]>
-<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-<![endif]-->
-<div class="wrapper"><!--wrapper-->
-<div class="cabecera"><!--header-->
-<div class="cont"><!--cont-->
-<div class="cont960">
-       <div class="login">
-       <?php if (!isset($_SESSION['MM_Username'])) { ?>
-        <p class="user">&nbsp;
-       </p>
-      <p class="log"><a class="fancybox fancybox.iframe" href="/login.php">Inicia sesión</a> <a class="fancybox fancybox.iframe fa fa-power-off" href="/login.php"></a></p>
-       <?php } else { ?>
-       <p class="user">
-        HOLA <?php echo $row_usuario_sesion['nick']; ?>
-       </p>
-       <p class="log"><a href="<?php echo $logoutAction ?>">Cerra sesión</a> <a class="fancybox fancybox.iframe fa fa-power-off" href="<?php echo $logoutAction ?>"></a>
-		   <?php if($row_usuario_sesion['fblogin'] == 0){?>
-           <br>
-           <a class="fancybox fancybox.iframe" href="login_cambia_clave.php">Cambia tu clave</a> <a class="fancybox fancybox.iframe fa fa-wrench" href="login_cambia_clave.php"></a></p>
-           <?php } ?>
-       <?php } ?>
-       </div>
-
-       <div class="logo"><a href="index.php"><img src="img/logos/delagrua.png" title="DE LA GRÚA"></a>
-       <p>Guía colectiva de talleres para autos y motos</p>
-       </div>
-
-       <div class="buscanos">CORRE LA VOZ! <br> <a href="https://www.facebook.com/guiadelagrua" target="_blank" class="fa fa-facebook-square"></a> <a href="https://plus.google.com/103267201251041877547/about" target="_blank"  class="fa fa-google-plus-square"></a></div>
-</div>
-</div><!--cont-->
-</div><!--header-->
-
-<div class="contenido"><!--contenido-->
-<div class="cont"><!--cont-->
-
-      <div class="nav-barra sombra"><!--barra-->
-           <ul>
-              <li><a href="index.php#busca_taller">BUSCA UN TALLER</a></li>
-              <?php if (!isset($_SESSION['MM_Username'])) { ?>
-              <li><a class="fancybox fancybox.iframe" href="/login.php">CALIFICA UN TALLER</a></li>
-              <?php } else { ?>
-              <li><a href="#califica_taller">CALIFICA UN TALLER</a></li>
-              <?php } ?>
-              <li><a href="index.php#agrega_taller">AGREGA TU TALLER</a></li>
-           </ul>
-      </div><!--barra-->
 <div class="cont960">
 <div class="resultados-busquedas"><!--rb-->
 
@@ -603,26 +462,9 @@ function activar(imagen) {
 
 </div><!--rb-->
 
-</div><!--cont-->
-</div><!--contenido-->
-
-<div class="pie"><!--contenido-->
-     <div class="cont">
-       <div class="centro">
-       <p class="l"><a href="faq.php">ACERCA DE LA GRUA</a> |<a href="terminos.php"> TÉRMINOS Y CONDICIONES</a><br>
-         <a href="faq.php">PREGUNTAS FRECUENTES</a> | <a href="contactanos.php">CONTACTANOS</a></p>
-       <div class="c"><img src="img/iconos/auto-negro.png"></div>
-       <p class="r">Copyright De la Grua 2014<br>
-         Design by <a href="#">kalidoscopio</a></p>
-       </div>
-    </div>
-</div>
-</div><!--contenido-->
-
-</div><!--wrapper-->
-</body>
-</html>
 <?php
+include_once 'partials/footer.php'; 
+
 mysql_free_result($usuario_sesion);
 mysql_free_result($registros);
 mysql_free_result($registros2);

@@ -20,13 +20,13 @@
   <link rel="shortcut icon" href="<?php echo $url_relativa;?>favicon.ico" /><meta name="description" content="">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="<?php echo $url_relativa;?>css/normalize.min.css">
-  <link rel="stylesheet" href="<?php echo $url_relativa;?>css/main.css">
-  <link href="<?php echo $url_relativa;?>css/grua.css" rel="stylesheet" type="text/css">
-  <link href="<?php echo $url_relativa;?>fonts/fuentes.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="<?php echo $_config['libraries'];?>css/normalize.min.css">
+  <link rel="stylesheet" href="<?php echo $_config['libraries'];?>css/main.css">
+  <link href="<?php echo $_config['libraries'];?>css/grua.css" rel="stylesheet" type="text/css">
+  <link href="<?php echo $_config['libraries'];?>fonts/fuentes.css" rel="stylesheet" type="text/css">
 
 
-  <link href="<?php echo $url_relativa;?>font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="<?php echo $_config['libraries'];?>font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -35,19 +35,19 @@
     ga('create', 'UA-54692324-1', 'auto');
     ga('send', 'pageview');
   </script>
-  <script src="<?php echo $url_relativa;?>js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script></head>
-  <script src="<?php echo $url_relativa;?>js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script></head>
+  <script src="<?php echo $_config['libraries'];?>js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script></head>
+  <script src="<?php echo $_config['libraries'];?>js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script></head>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="<?php echo $url_relativa;?>js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
-  <script src="<?php echo $url_relativa;?>js/main.js"></script>
+  <script>window.jQuery || document.write('<script src="<?php echo $_config['libraries'];?>js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
+  <script src="<?php echo $_config['libraries'];?>js/main.js"></script>
 
 
-  <script src="<?php echo $url_relativa;?>js/vendor/jquery.geocomplete.min.js"></script>
+  <script src="<?php echo $_config['libraries'];?>js/vendor/jquery.geocomplete.min.js"></script>
 
   <!-- fancyapps -->
   <!-- <script type="text/javascript" src="js/fancyapps/jquery-1.10.1.min.js"></script>-->
-  <script type="text/javascript" src="<?php echo $url_relativa;?>js/fancyapps/jquery.fancybox.js?v=2.1.5"></script>
-  <link rel="stylesheet" type="text/css" href="<?php echo $url_relativa;?>css/fancyapps/jquery.fancybox.css?v=2.1.5" media="screen" />
+  <script type="text/javascript" src="<?php echo $_config['libraries'];?>js/fancyapps/jquery.fancybox.js?v=2.1.5"></script>
+  <link rel="stylesheet" type="text/css" href="<?php echo $_config['libraries'];?>css/fancyapps/jquery.fancybox.css?v=2.1.5" media="screen" />
   <script type="text/javascript">
     $(document).ready(function() {
       $('.fancybox').fancybox({
@@ -125,8 +125,15 @@ function actualizar2(){
 
  <div class="contenido"><!--contenido-->
   <div class="cont"><!--cont-->
-
-    <div class="nav-barra sombra-XX"><!--barra-->
+    <?php
+    if($_SERVER['PHP_SELF'] == '/delagrua/index.php' || $_SERVER['PHP_SELF'] == '/delagrua/faq.php')
+    {
+        echo '<div class="nav-barra sombra-XX">';    
+    }else
+    {
+        echo '<div class="nav-barra sombra">';
+    }
+    ?>    
      <ul>
       <li><a href="<?php echo $url_relativa;?>#busca_taller">BUSCA UN TALLER</a></li>
       <?php if (!isset($_SESSION['MM_Username'])) { ?>

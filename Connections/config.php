@@ -30,8 +30,20 @@ if ($server == 'www.delagrua.loc' || $server == 'delagrua.loc')
     $email_admin_taller = 'delagrua1@gmail.com';
     $email_contacto = 'delagrua1@gmail.com';
 
-    $url_relativa = 'http://www.delagrua.com/';
+    //$url_relativa = 'http://www.delagrua.com/';
+    $url_relativa = 'http://localhost/delagrua/';
 }
+
+define('DB_HOST',       $hostname_config);
+define('DB_USER',       $username_config);
+define('DB_PASS',       $password_config); //TMS
+define('DB_NAME',       $database_config);
+define('DB_CHARSET',    'utf-8');
+
+$_config = array(
+    'libraries' => $url_relativa.'libraries/',
+    'url'       => $url_relativa
+);
 
 $config = mysql_pconnect($hostname_config, $username_config, $password_config) or trigger_error(mysql_error(), E_USER_ERROR);
 ?>

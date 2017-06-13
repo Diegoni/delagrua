@@ -731,25 +731,9 @@ do {
 
 </div><!--rb-->
 
-</div><!--cont-->
-</div><!--contenido-->
-
-<div class="pie"><!--contenido-->
-     <div class="cont">
-       <div class="centro">
-       <p class="l"><a href="faq.php">ACERCA DE LA GRUA</a> |<a href="terminos.php"> TÉRMINOS Y CONDICIONES</a><br>
-         <a href="faq.php">PREGUNTAS FRECUENTES</a> | <a href="contactanos.php">CONTACTANOS</a></p>
-       <div class="c"><img src="img/iconos/auto-negro.png"></div>
-       <p class="r">Copyright De la Grua 2014<br>
-         Design by <a href="#">kalidoscopio</a></p>
-       </div>
-    </div>
-</div>
-</div><!--contenido-->
-</div><!--wrapper-->
-</body>
-</html>
 <?php
+include_once 'partials/footer.php'; 
+
 mysql_free_result($usuario_sesion);
 mysql_free_result($registros);
 mysql_free_result($registros2);
