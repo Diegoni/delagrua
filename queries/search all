@@ -1,0 +1,136 @@
+SELECT *,
+sum(relevance) as relevance
+FROM (
+
+  SELECT
+  100 AS relevance,
+  t.idtaller,
+  t.nombre,
+  s.servicio,
+  l.localidad,
+  p.provincia,
+  m.marca,
+  t.tipovehiculo,
+  t.atencion,
+  t.precio,
+  t.domicilio
+  FROM dlg_taller t
+  LEFT JOIN dlg_marca m ON t.idmarca = m.idmarca
+  LEFT JOIN dlg_tallerservicio ts ON ts.idtaller = t.idtaller
+  LEFT JOIN dlg_localidad l ON t.idlocalidad = l.idlocalidad
+  LEFT JOIN dlg_provincia p ON t.idprovincia = p.idprovincia
+  LEFT JOIN dlg_servicio s ON s.idservicio = ts.idservicio
+  WHERE t.activo = 1
+  AND t.nombre = 'Mendoza'
+
+  UNION SELECT
+  20 AS relevance,
+  t.idtaller,
+  t.nombre,
+  s.servicio,
+  l.localidad,
+  p.provincia,
+  m.marca,
+  t.tipovehiculo,
+  t.atencion,
+  t.precio,
+  t.domicilio
+  FROM dlg_taller t
+  LEFT JOIN dlg_marca m ON t.idmarca = m.idmarca
+  LEFT JOIN dlg_tallerservicio ts ON ts.idtaller = t.idtaller
+  LEFT JOIN dlg_localidad l ON t.idlocalidad = l.idlocalidad
+  LEFT JOIN dlg_provincia p ON t.idprovincia = p.idprovincia
+  LEFT JOIN dlg_servicio s ON s.idservicio = ts.idservicio
+  WHERE t.activo = 1
+  AND t.nombre like '%Mendoza%'
+
+
+  UNION SELECT
+  15 AS relevance,
+  t.idtaller,
+  t.nombre,
+  s.servicio,
+  l.localidad,
+  p.provincia,
+  m.marca,
+  t.tipovehiculo,
+  t.atencion,
+  t.precio,
+  t.domicilio
+  FROM dlg_taller t
+  LEFT JOIN dlg_marca m ON t.idmarca = m.idmarca
+  LEFT JOIN dlg_tallerservicio ts ON ts.idtaller = t.idtaller
+  LEFT JOIN dlg_localidad l ON t.idlocalidad = l.idlocalidad
+  LEFT JOIN dlg_provincia p ON t.idprovincia = p.idprovincia
+  LEFT JOIN dlg_servicio s ON s.idservicio = ts.idservicio
+  WHERE t.activo = 1
+  AND s.servicio like '%Mendoza%'
+
+  UNION SELECT
+  10 AS relevance,
+  t.idtaller,
+  t.nombre,
+  s.servicio,
+  l.localidad,
+  p.provincia,
+  m.marca,
+  t.tipovehiculo,
+  t.atencion,
+  t.precio,
+  t.domicilio
+  FROM dlg_taller t
+  LEFT JOIN dlg_marca m ON t.idmarca = m.idmarca
+  LEFT JOIN dlg_tallerservicio ts ON ts.idtaller = t.idtaller
+  LEFT JOIN dlg_localidad l ON t.idlocalidad = l.idlocalidad
+  LEFT JOIN dlg_provincia p ON t.idprovincia = p.idprovincia
+  LEFT JOIN dlg_servicio s ON s.idservicio = ts.idservicio
+  WHERE t.activo = 1
+  AND l.localidad like '%Mendoza%'
+
+  UNION SELECT
+  7 AS relevance,
+  t.idtaller,
+  t.nombre,
+  s.servicio,
+  l.localidad,
+  p.provincia,
+  m.marca,
+  t.tipovehiculo,
+  t.atencion,
+  t.precio,
+  t.domicilio
+  FROM dlg_taller t
+  LEFT JOIN dlg_marca m ON t.idmarca = m.idmarca
+  LEFT JOIN dlg_tallerservicio ts ON ts.idtaller = t.idtaller
+  LEFT JOIN dlg_localidad l ON t.idlocalidad = l.idlocalidad
+  LEFT JOIN dlg_provincia p ON t.idprovincia = p.idprovincia
+  LEFT JOIN dlg_servicio s ON s.idservicio = ts.idservicio
+  WHERE t.activo = 1
+  AND t.domicilio like '%Mendoza%'
+
+  UNION SELECT
+  7 AS relevance,
+  t.idtaller,
+  t.nombre,
+  s.servicio,
+  l.localidad,
+  p.provincia,
+  m.marca,
+  t.tipovehiculo,
+  t.atencion,
+  t.precio,
+  t.domicilio
+  FROM dlg_taller t
+  LEFT JOIN dlg_marca m ON t.idmarca = m.idmarca
+  LEFT JOIN dlg_tallerservicio ts ON ts.idtaller = t.idtaller
+  LEFT JOIN dlg_localidad l ON t.idlocalidad = l.idlocalidad
+  LEFT JOIN dlg_provincia p ON t.idprovincia = p.idprovincia
+  LEFT JOIN dlg_servicio s ON s.idservicio = ts.idservicio
+  WHERE t.activo = 1
+  AND t.domicilio like '%Mendoza%'
+
+
+) results
+
+GROUP BY idtaller
+ORDER BY sum(relevance) desc

@@ -1,0 +1,30 @@
+-- Crear locations
+
+CREATE TABLE `dlg_locations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idtaller` int(10) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `point_of_interest` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `lat` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `lng` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `location` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `location_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `formatted_address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bounds` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `viewport` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `route` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `street_number` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `postal_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `locality` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `sublocality` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `country` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `country_short` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `administrative_area_level_1` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `place_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `reference` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `website` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idtaller` (`idtaller`),
+  CONSTRAINT `dlg_locations_ibfk_1` FOREIGN KEY (`idtaller`) REFERENCES `dlg_taller` (`idtaller`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
