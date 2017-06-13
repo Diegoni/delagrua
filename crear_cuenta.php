@@ -40,7 +40,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formguardar")) {
 		
 		   mysql_select_db($database_config, $config);
 		  $Result1 = mysql_query($insertSQL, $config) or die(mysql_error());
-		  $insertGoTo = "crear_cuenta_ok.html";
+		  $insertGoTo = "crear_cuenta_ok.php";
 		  if (isset($_SERVER['QUERY_STRING'])) {
 			$insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
 			$insertGoTo .= $_SERVER['QUERY_STRING'];

@@ -94,7 +94,8 @@
   $row_registros8 = mysql_fetch_assoc($registros8);
   $totalRows_registros8 = mysql_num_rows($registros8);
 
-  if ((isset($_POST["MM_send"])) && ($_POST["MM_send"] == "formcontacto")) {
+  if ((isset($_POST["MM_send"])) && ($_POST["MM_send"] == "formcontacto")) 
+  {
       require_once ('class.phpmailer.php');
       $mail = new PHPMailer();
       $body = '<html><body>';
@@ -109,10 +110,11 @@
       $mail->AddAddress($email_admin_taller);
       $mail->Subject = utf8_decode("DE LA GRUA - Agregá tu taller");
       $mail->Body = $body;
-      if ($mail->Send()) {
+      if ($mail->Send()) 
+      {
           $mensaje = $_POST['nombreyapellido'] . '<br><br>Nos contactaremos para agregar el taller ' . $_POST['taller'] . ' al sitio De la grua.';
-      }
-      else {
+      }else 
+      {
           $mensaje = 'No se pudieron enviar los datos para agregar tu taller, por favor, intentalo más tarde.';
       }
   }

@@ -20,7 +20,7 @@ if (isset($_POST['email'])) {
   $password=md5($_POST['clave']);
   $MM_fldUserAuthorization = "";
   $MM_redirectLoginSuccess = "login_ok.php";
-  $MM_redirectLoginFailed = "login_error.html";
+  $MM_redirectLoginFailed = "login_error.php";
   $MM_redirecttoReferrer = false;
   mysql_select_db($database_config, $config);
 
@@ -156,7 +156,7 @@ function FBLogin(){
        <div class="box-pop">
           <h1><span class="amarillo">1.</span>CONECTATE AL SITIO CON TU CUENTA DE FACEBOOK O TU CUENTA DE DE LA GRUA</h1>
 		  <!-- facebook login -->
-          <a href="#"><img src="facebook-connect.png" alt="Fb Connect" title="Login with facebook" onclick="FBLogin();"/></a></div>
+          <a href="#"><img src="img/facebook-connect.png" alt="Fb Connect" title="Login with facebook" onclick="FBLogin();"/></a></div>
 		  <!-- fin facebook login -->
        <form ACTION="<?php echo $loginFormAction; ?>" METHOD="POST" id="formsesion" name="formsesion">
        <div class="box-pop">

@@ -2,7 +2,8 @@
 $server = $_SERVER['HTTP_HOST'];
 
 // Check enviroment
-if ($server == 'www.delagrua.loc' || $server == 'delagrua.loc') {
+if ($server == 'www.delagrua.loc' || $server == 'delagrua.loc') 
+{
     error_reporting(0);
 
     $hostname_config = "localhost";
@@ -15,13 +16,15 @@ if ($server == 'www.delagrua.loc' || $server == 'delagrua.loc') {
     $email_contacto = 'delagrua1@gmail.com';
 
     $url_relativa = 'http://www.delagrua.loc/';
-}
-else {
+}else 
+{
     error_reporting(0);
     $hostname_config = "localhost";
     $database_config = "delagrua";
-    $username_config = "jasdju8712jj";
-    $password_config = "k1209djjauuuua";
+    //$username_config = "jasdju8712jj";
+    //$password_config = "k1209djjauuuua";
+    $username_config = "root";
+    $password_config = "";
 
     $email_admin_cuentas = 'delagrua1@gmail.com';
     $email_admin_taller = 'delagrua1@gmail.com';
