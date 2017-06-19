@@ -1,8 +1,12 @@
-<?php require_once('Connections/config.php'); ?>
-<?php require_once('class.inputfilter.php'); ?>
-<?php require_once('funciones.php'); ?>
-<?php
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formguardar")) {
+<?php 
+require_once('Connections/config.php'); 
+require_once('class.inputfilter.php');
+require_once('funciones.php');
+require_once('partials/header.php');
+require_once('models/M_usuario.php');
+
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formguardar")) 
+{
 	
   $ifilter = new InputFilter();
   $_POST = $ifilter->process($_POST);		
@@ -23,29 +27,33 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formguardar")) {
 	  $row_registro = mysql_fetch_assoc($registro);
 	  $totalRows_registro = mysql_num_rows($registro);
 
-	  if($totalRows_registro == 0){
-		  $insertSQL = sprintf("INSERT INTO dlg_usuario (idgrupo, nombreyapellido, email, clave, fechanacimiento, telefonocodarea, telefono, pais, provincia, localidad, nick, activo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-							   GetSQLValueString($_POST['idgrupo'], "int"),
-							   GetSQLValueString($_POST['nombreyapellido'], "text"),
-							   GetSQLValueString($_POST['email'], "text"),
-							   GetSQLValueString(md5($_POST['clave']), "text"),
-						   	   GetSQLValueString(formato_fecha_mysql($_POST['fechanacimiento']), "date"),
-							   GetSQLValueString($_POST['telefonocodarea'], "text"),
-							   GetSQLValueString($_POST['telefono'], "text"),
-							   GetSQLValueString($_POST['pais'], "text"),
-							   GetSQLValueString($_POST['provincia'], "text"),
-							   GetSQLValueString($_POST['localidad'], "text"),
-							   GetSQLValueString($_POST['nick'], "text"),
-							   GetSQLValueString($_POST['activo'], "int"));
-		
-		   mysql_select_db($database_config, $config);
-		  $Result1 = mysql_query($insertSQL, $config) or die(mysql_error());
-		  $insertGoTo = "crear_cuenta_ok.php";
-		  if (isset($_SERVER['QUERY_STRING'])) {
-			$insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
+    if($totalRows_registro == 0)
+	{
+        $registro = array(
+            'idgrupo'           => $_POST['idgrupo'],
+            'nombreyapellido'   => $_POST['nombreyapellido'], 
+            'email'             => $_POST['email'], 
+            'clave'             => md5($_POST['clave']), 
+            'fechanacimiento'   => formato_fecha_mysql($_POST['fechanacimiento']), 
+            'telefonocodarea'   => $_POST['telefonocodarea'], 
+            'telefono'          => $_POST['telefono'], 
+            'pais'              => $_POST['pais'], 
+            'provincia'         => $_POST['provincia'], 
+            'localidad'         => $_POST['localidad'], 
+            'nick'              => $_POST['nick'], 
+            'activo'            => $_POST['activo']
+        );
+        
+        $m_usuario = new m_usuario();
+        $m_usuario->insert($registro); 
+        
+        $insertGoTo = "crear_cuenta_ok.php";
+		if (isset($_SERVER['QUERY_STRING'])) 
+		{
+            $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
 			$insertGoTo .= $_SERVER['QUERY_STRING'];
-		  }
-		  header(sprintf("Location: %s", $insertGoTo));
+        }
+		header(sprintf("Location: %s", $insertGoTo));
 	  } else {
 		  $error = "Tu cuenta no se pudo agregar porque ya existe una cuenta con ese nick.";
 	  }
@@ -55,46 +63,6 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formguardar")) {
   }
 }
 ?>
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-<head>
-<meta name="robots" content="noindex">
-<meta name="googlebot" content="noindex">
-<meta name="description" content="De la Grúa | Guía colectiva de talleres para autos y motos. Para que busques el taller que necesites.">
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>DE LA GRUA | Guía colectiva de talleres para autos y motos</title>
-<link rel="icon" href="favicon.png" type="image/png" />
-<link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
-<link rel="shortcut icon" href="favicon.ico" /><meta name="description" content="">
-<meta name="description" content="">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="css/normalize.min.css">
-<link rel="stylesheet" href="css/main.css">
-<link href="css/grua.css" rel="stylesheet" type="text/css">
-<link href="fonts/fuentes.css" rel="stylesheet" type="text/css">
-<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-54692324-1', 'auto');
-  ga('send', 'pageview');
-</script>
-<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script></head>
-<!--datepicker -->
-<link href="jQueryAssets/jquery.ui.core.min.css" rel="stylesheet" type="text/css">
-<link href="jQueryAssets/jquery.ui.theme.min.css" rel="stylesheet" type="text/css">
-<link href="jQueryAssets/jquery.ui.datepicker.min.css" rel="stylesheet" type="text/css">
-<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-<script src="jQueryAssets/jquery-1.8.3.min.js" type="text/javascript"></script>
-<script src="jQueryAssets/jquery-ui-1.9.2.datepicker.custom.min.js" type="text/javascript"></script>
-<script src="jQueryAssets/jquery.ui.datepicker-es.js"></script>
-<script src="jQueryAssets/i18n/jquery.ui.datepicker-es.js" type="text/javascript"></script>
 <script>
 $(function () {
 $.datepicker.setDefaults($.datepicker.regional["es"]);
@@ -159,17 +127,7 @@ edad--;
 return edad;
 };
 </script>
-</head>
-<body>
-<!--[if lt IE 7]>
-<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-<![endif]-->
 
-<div class="wrapper"><!--wrapper-->
-<div class="cont-pop"><!--pop-->
-     <div class="sup">
-          <img src="img/iconos/auto-negro-up.png">
-     </div>
      <div class="cen">
        <div class="box-pop">
           <h1><span class="amarillo">1.</span> CREÁ TU CUENTA DE USUARIO</h1>

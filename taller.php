@@ -2,6 +2,7 @@
 require_once('Connections/config.php');
 require_once('funciones.php');
 require_once('partials/header.php');
+require_once('models/M_calificacion.php');
 
 //initialize the session
 if (!isset($_SESSION)) {
@@ -36,7 +37,8 @@ if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formcalificar")) {
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formcalificar")) 
+{
 	$colname_registro3 = $_POST['idusuario'];
 	$colname2_registro3 = $_POST['idtaller'];
 	mysql_select_db($database_config, $config);
@@ -45,24 +47,26 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formcalificar")) {
 	$row_registro3 = mysql_fetch_assoc($registro3);
 	$totalRows_registro3 = mysql_num_rows($registro3);
 
+    $sql_registro = array(
+        'fechahora'     => $_POST['fechahora'], 
+        'calificacion'  => $_POST['calificacion'], 
+        'idtaller'      => $_POST['idtaller'], 
+        'idusuario'     => $_POST['idusuario'], 
+        'atencion'      => $_POST['atencion'], 
+        'precio'        => $_POST['precio'], 
+        'servicio'      => $_POST['servicio'], 
+        'publicar'      => '0'
+    );
+    
+    $m_calificacion = new m_calificacion();
+    $id_insert = $m_calificacion->insert($sql_registro);
 
-   $insertSQL = sprintf("INSERT INTO dlg_calificacion (fechahora, calificacion, idtaller, idusuario, atencion, precio, servicio, publicar) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-     GetSQLValueString($_POST['fechahora'], "date"),
-     GetSQLValueString($_POST['calificacion'], "text"),
-     GetSQLValueString($_POST['idtaller'], "int"),
-     GetSQLValueString($_POST['idusuario'], "int"),
-     GetSQLValueString($_POST['atencion'], "int"),
-     GetSQLValueString($_POST['precio'], "int"),
-     GetSQLValueString($_POST['servicio'], "int"),
-     GetSQLValueString('0', "int"));
+    if($id_insert > 0) 
+    {
+        $mensaje = "Muchas gracias por enviarmos tu calificación. Ya quedó registrada y está pendiente de aprobación.";
+    }
 
-   mysql_select_db($database_config, $config);
-   $Result1 = mysql_query($insertSQL, $config) or die(mysql_error());
-   if($Result1) {
-    $mensaje = "Muchas gracias por enviarmos tu calificación. Ya quedó registrada y está pendiente de aprobación.";
-  }
-
-mysql_free_result($registro3);
+    mysql_free_result($registro3);
 }
 
 $colname_usuario_sesion = "-1";

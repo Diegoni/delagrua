@@ -1,7 +1,10 @@
-<?php require_once('Connections/config.php'); ?>
-<?php require_once('class.inputfilter.php'); ?>
-<?php require_once('funciones.php'); ?>
-<?php
+<?php 
+require_once('Connections/config.php');
+require_once('class.inputfilter.php');
+require_once('funciones.php');
+require_once('partials/header.php');
+require_once('models/M_usuario.php');
+
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formguardar")) {
   $ifilter = new InputFilter();
   $_POST = $ifilter->process($_POST);		
@@ -20,24 +23,28 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formguardar")) {
 	} else {
 		$fechanacimiento = '';
 	}
-	$insertSQL = sprintf("INSERT INTO dlg_usuario (idgrupo, nombreyapellido, email, fechanacimiento, pais, provincia, localidad, nick, fbid, fblogin, activo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-						   GetSQLValueString($_POST['idgrupo'], "int"),
-						   GetSQLValueString($_POST['nombreyapellido'], "text"),
-						   GetSQLValueString($_POST['email'], "text"),
-						   GetSQLValueString($fechanacimiento, "date"),
-						   GetSQLValueString($_POST['pais'], "text"),
-						   GetSQLValueString($_POST['provincia'], "text"),
-						   GetSQLValueString($_POST['localidad'], "text"),
-						   GetSQLValueString($_POST['nick'], "text"),
-						   GetSQLValueString($_POST['fbid'], "int"),
-						   GetSQLValueString($_POST['fblogin'], "int"),
-						   GetSQLValueString($_POST['activo'], "int"));
-	
-	 	mysql_select_db($database_config, $config);
-	  	$Result1 = mysql_query($insertSQL, $config) or die(mysql_error());
-		if (!isset($_SESSION)) {
-		  session_start();
-		}
+    
+    $sql_registro = array(
+        'idgrupo' => $_POST['idgrupo'], 
+        'nombreyapellido' => $_POST['nombreyapellido'], 
+        'email' => $_POST['email'], 
+        'fechanacimiento' => $fechanacimiento, 
+        'pais' => $_POST['pais'], 
+        'provincia' => $_POST['provincia'], 
+        'localidad' => $_POST['localidad'], 
+        'nick' => $_POST['nick'], 
+        'fbid' => $_POST['fbid'], 
+        'fblogin' => $_POST['fblogin'], 
+        'activo' => $_POST['activo']
+    );
+    
+    $m_usuario = new m_usuario();
+    $id_usuario = $m_usuario->insert($sql_registro);
+    
+    if (!isset($_SESSION)) 
+    {
+	   session_start();
+    }
 		
 		if (isset($_POST['email'])) {
 			$loginUsername=$_POST['email'];
@@ -108,32 +115,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formguardar")) {
 	}
 }
 ?>
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>DE LA GRUA | Guía colectiva de talleres para autos y motos</title>
-<link rel="icon" href="favicon.png" type="image/png" />
-<link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
-<link rel="shortcut icon" href="favicon.ico" /><meta name="description" content="">
-<meta name="description" content="">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" href="css/normalize.min.css">
-<link rel="stylesheet" href="css/main.css">
-<link href="css/grua.css" rel="stylesheet" type="text/css">
-<link href="fonts/fuentes.css" rel="stylesheet" type="text/css">
-<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-<!--datepicker -->
-<link href="jQueryAssets/jquery.ui.core.min.css" rel="stylesheet" type="text/css">
-<link href="jQueryAssets/jquery.ui.theme.min.css" rel="stylesheet" type="text/css">
-<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-<script src="jQueryAssets/jquery-1.8.3.min.js" type="text/javascript"></script><!-- fin datepicker -->
 <script>
 function MM_validateForm() { //v4.0
   if (document.getElementById){
@@ -180,8 +162,8 @@ edad--;
 return edad;
 };
 </script>
-</head>
-<body>
+
+
 <?php if((isset($_REQUEST["action"]) && ($_REQUEST["action"] != '')) || ($error != '') || ($error_noactivo != '')){?>
 
 <!--[if lt IE 7]>
@@ -256,6 +238,9 @@ if( document.MM_returnValue){
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>-->
 <script src="js/main.js"></script>
-<?php } ?>
-</body>
-</html>
+<?php 
+}
+
+require_once('partials/footer.php');
+?>
+

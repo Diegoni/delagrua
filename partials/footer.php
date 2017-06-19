@@ -7,7 +7,7 @@
    <div class="centro">
 
 
-     <p class="l"><a href="faq/">ACERCA DE LA GRUA</a> |<a href="<?php echo $url_relativa;?>terminos/"> TÉRMINOS Y CONDICIONES</a><br>
+     <p class="l"><a href="faq/">ACERCA DE LA GRUA</a> |<a href="<?php echo $url_relativa;?>terminos.php"> TÉRMINOS Y CONDICIONES</a><br>
        <a href="<?php echo $url_relativa;?>faq.php">PREGUNTAS FRECUENTES</a> | <a href="<?php echo $url_relativa;?>contactanos.php">CONTACTANOS</a>| <a target="_blank" href="https://plus.google.com/103267201251041877547" rel="publisher">GOOGLE+</a></p>
        <div class="c"><img src="<?php echo $url_relativa;?>img/iconos/auto-negro.png"></div>
        <p class="r">Copyright De la Grua 2014<br>

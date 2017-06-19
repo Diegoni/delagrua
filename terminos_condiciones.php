@@ -1,3 +1,9 @@
+<?php
+require_once ('Connections/config.php');
+require_once ('funciones.php');
+include_once 'partials/header.php';
+?>
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -123,5 +129,7 @@ Cada voto representa una licencia no exclusiva,  internacional, perpetua, irrevo
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
 
         <script src="js/main.js"></script>
-    </body>
-</html>
+<?php 
+include_once 'partials/footer.php';
+?>
+

@@ -64,11 +64,11 @@ if (isset($_POST['email'])) {
 <link rel="shortcut icon" href="favicon.ico" /><meta name="description" content="">
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="css/normalize.min.css">
-<link rel="stylesheet" href="css/main.css">
-<link href="css/grua.css" rel="stylesheet" type="text/css">
-<link href="fonts/fuentes.css" rel="stylesheet" type="text/css">
-<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="<?php echo $_config['libraries'];?>css/normalize.min.css">
+<link rel="stylesheet" href="<?php echo $_config['libraries'];?>css/main.css">
+<link href="<?php echo $_config['libraries'];?>css/grua.css" rel="stylesheet" type="text/css">
+<link href="<?php echo $_config['libraries'];?>fonts/fuentes.css" rel="stylesheet" type="text/css">
+<link href="<?php echo $_config['libraries'];?>font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -77,8 +77,8 @@ if (isset($_POST['email'])) {
   ga('create', 'UA-54692324-1', 'auto');
   ga('send', 'pageview');
 </script>
-<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script></head>
-<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<script src="<?php echo $_config['libraries'];?>js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script></head>
+<script src="<?php echo $_config['libraries'];?>js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 <script type="text/javascript">
 function MM_callJS(jsStr) { //v2.0
   return eval(jsStr)
@@ -107,7 +107,7 @@ function MM_validateForm() { //v4.0
 </head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
-<script src="js/main.js"></script>
+<script src="<?php echo $_config['libraries'];?>js/main.js"></script>
 
 <!-- facebook login -->
 <script type="text/javascript">
