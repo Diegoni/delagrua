@@ -36,7 +36,7 @@ if ($server == 'www.delagrua.loc' || $server == 'delagrua.loc')
 
 define('DB_HOST',       $hostname_config);
 define('DB_USER',       $username_config);
-define('DB_PASS',       $password_config); //TMS
+define('DB_PASS',       $password_config);
 define('DB_NAME',       $database_config);
 define('DB_CHARSET',    'utf-8');
 

@@ -24,7 +24,7 @@ class MY_Model extends Model
         parent::__construct();
     }
     
-    public function get_registros($where = NULL)
+    public function getRegistros($where = NULL)
     {
         if($where == NULL)
         {

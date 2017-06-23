@@ -1,6 +1,11 @@
 <?php
   require_once ('Connections/config.php');
   require_once ('funciones.php');
+  require_once ('models/M_taller.php');
+  require_once ('models/M_usuario.php');
+  require_once ('models/M_marca.php');
+  require_once ('models/M_provincia.php');
+  require_once ('models/M_localidad.php');
   
   //initialize the session
   if (!isset($_SESSION)) {
@@ -13,50 +18,45 @@
       $logoutAction.= "&" . htmlentities($_SERVER['QUERY_STRING']);
   }
 
-  if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
-
+  if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) 
+  {
       //to fully log out a visitor we need to clear the session varialbles
-      $_SESSION['MM_Username'] = NULL;
+      $_SESSION['MM_Username']  = NULL;
       $_SESSION['MM_UserGroup'] = NULL;
-      $_SESSION['PrevUrl'] = NULL;
+      $_SESSION['PrevUrl']      = NULL;
       unset($_SESSION['MM_Username']);
       unset($_SESSION['MM_UserGroup']);
       unset($_SESSION['PrevUrl']);
 
       $logoutGoTo = $url_relativa;
-      if ($logoutGoTo) {
+      if ($logoutGoTo) 
+      {
           header("Location: $logoutGoTo");
           exit;
       }
   }
-  ?>
-<?php
+
+
   $colname_usuario_sesion = "-1";
-  if (isset($_SESSION['MM_Username'])) {
+  if (isset($_SESSION['MM_Username'])) 
+  {
       $colname_usuario_sesion = $_SESSION['MM_Username'];
   }
-  mysql_select_db($database_config, $config);
-  $query_usuario_sesion = sprintf("SELECT nick, fblogin FROM dlg_usuario WHERE email = %s", GetSQLValueString($colname_usuario_sesion, "text"));
-  $usuario_sesion = mysql_query($query_usuario_sesion, $config) or die(mysql_error());
-  $row_usuario_sesion = mysql_fetch_assoc($usuario_sesion);
-  $totalRows_usuario_sesion = mysql_num_rows($usuario_sesion);
 
-  mysql_select_db($database_config, $config);
-  $query_registros = "SELECT * FROM dlg_marca ORDER BY marca ASC";
-  $registros = mysql_query($query_registros, $config) or die(mysql_error());
-  $row_registros = mysql_fetch_assoc($registros);
-  $totalRows_registros = mysql_num_rows($registros);
+    $m_usuario          = new m_usuario();
+    $row_usuario_sesion = $m_usuario->getRegistros("email = '$colname_usuario_sesion'");
 
-  mysql_select_db($database_config, $config);
-  $query_registros2 = "SELECT * FROM dlg_provincia ORDER BY provincia ASC";
-  $registros2 = mysql_query($query_registros2, $config) or die(mysql_error());
-  $row_registros2 = mysql_fetch_assoc($registros2);
-  $totalRows_registros2 = mysql_num_rows($registros2);
+    $m_marca            = new m_marca();
+    $row_registros      = $m_marca->getRegistros();
+    
+    $m_provincia        = new m_provincia();
+    $row_registros2     = $m_provincia->getRegistros();
 
-  $colname_registros3 = $row_registros2['provincia'];
-  if (isset($_GET['provincia'])) {
-      $colname_registros3 = $_GET['provincia'];
-  }
+    $colname_registros3 = $row_registros2['provincia'];
+    if (isset($_GET['provincia'])) {
+        $colname_registros3 = $_GET['provincia'];
+    }
+  
   mysql_select_db($database_config, $config);
   $query_registros3 = sprintf("SELECT dlg_localidad.localidad FROM dlg_localidad LEFT JOIN dlg_provincia ON dlg_localidad.idprovincia = dlg_provincia.idprovincia WHERE dlg_provincia.provincia LIKE %s ORDER BY localidad ASC", GetSQLValueString($colname_registros3, "text"));
   $registros3 = mysql_query($query_registros3, $config) or die(mysql_error());
@@ -165,7 +165,7 @@
     <div class="box2">
       <?php
         if ($totalRows_registros5 > 0) {
-
+            
             // Show if recordset not empty
 
         ?>
@@ -328,9 +328,11 @@
       $registros10 = mysql_query($query_limit_registros10, $config) or die(mysql_error());
       $row_registros10 = mysql_fetch_assoc($registros10);
 
-      if (isset($_GET['totalRows_registros10'])) {
+      if (isset($_GET['totalRows_registros10'])) 
+      {
         $totalRows_registros10 = $_GET['totalRows_registros10'];
-      } else {
+      }else 
+      {
         $all_registros10 = mysql_query($query_registros10);
         $totalRows_registros10 = mysql_num_rows($all_registros10);
       }

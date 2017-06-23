@@ -29,7 +29,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formguardar"))
 
     if($totalRows_registro == 0)
 	{
-        $registro = array(
+        $sql_registro = array(
             'idgrupo'           => $_POST['idgrupo'],
             'nombreyapellido'   => $_POST['nombreyapellido'], 
             'email'             => $_POST['email'], 
@@ -45,7 +45,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formguardar"))
         );
         
         $m_usuario = new m_usuario();
-        $m_usuario->insert($registro); 
+        $m_usuario->insert($sql_registro); 
         
         $insertGoTo = "crear_cuenta_ok.php";
 		if (isset($_SERVER['QUERY_STRING'])) 
