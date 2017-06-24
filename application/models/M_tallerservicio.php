@@ -11,7 +11,7 @@ class m_tallerservicio extends MY_Model
         ),
         'idservicio' => array(
             'table'     => 'dlg_servicio',
-            'subjet'    => 'nombre'
+            'subjet'    => 'servicio'
         ),
     );
 		
