@@ -51,7 +51,7 @@ INDICE
 
 function setCss($css)
 {
-	$directorio = base_url().'librerias/plantilla/'.$css;
+	$directorio = base_url().'librerias/'.$css;
 	return '<link rel="stylesheet" href="'.$directorio.'">';
 }
 
@@ -59,7 +59,7 @@ function setCss($css)
 
 function setJs($js)
 {
-	$directorio = base_url().'librerias/plantilla/'.$js;
+	$directorio = base_url().'librerias/'.$js;
 	return '<script src="'.$directorio.'"></script>';
 }
 

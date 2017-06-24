@@ -20,6 +20,7 @@ class MY_Controller extends CI_Controller
     	$this->_subject		= $subjet;
 		$this->_upload 	= './uploads/';
         parent::__construct();
+		 $this->output->set_header('Access-Control-Allow-Origin: *');
 		
 		$this->load->library(array('table','pdf', '../core/benchmark'));
         $this->benchmark->mark('inicio');
@@ -29,8 +30,8 @@ class MY_Controller extends CI_Controller
             $this->load->model($this->_model, 'model');    
         }
         
-        $this->load->model('m_usuarios_permisos');
-        $this->load->model('m_logs_usuarios');
+        //$this->load->model('m_usuarios_permisos');
+        //$this->load->model('m_logs_usuarios');
     }
     
     
@@ -297,8 +298,8 @@ class MY_Controller extends CI_Controller
                 $this->benchmark->mark('final');
                      
                 $this->load->view('plantilla/head', $db);
-                $this->load->view('plantilla/menu-top');
-                $this->load->view('plantilla/menu-left');
+               // $this->load->view('plantilla/menu-top');
+               // $this->load->view('plantilla/menu-left');
                 $this->load->view($this->_subject.'/'.$vista);
                 $this->load->view('plantilla/footer'); 
             //}else 
@@ -671,7 +672,7 @@ class MY_Controller extends CI_Controller
             $registro['accion'] = $accion;
         }
         
-        $this->m_logs_usuarios->insert($registro);
+        //$this->m_logs_usuarios->insert($registro);
     }   
     
     
