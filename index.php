@@ -1,388 +1,292 @@
 <?php
-  require_once ('Connections/config.php');
-  require_once ('funciones.php');
-  require_once ('models/M_taller.php');
-  require_once ('models/M_usuario.php');
-  require_once ('models/M_marca.php');
-  require_once ('models/M_provincia.php');
-  require_once ('models/M_localidad.php');
-  
-  //initialize the session
-  if (!isset($_SESSION)) {
-      session_start();
-  }
+/**
+ * CodeIgniter
+ *
+ * An open source application development framework for PHP
+ *
+ * This content is released under the MIT License (MIT)
+ *
+ * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 1.0.0
+ * @filesource
+ */
 
-  // ** Logout the current user. **
-  $logoutAction = $_SERVER['PHP_SELF'] . "?doLogout=true";
-  if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")) {
-      $logoutAction.= "&" . htmlentities($_SERVER['QUERY_STRING']);
-  }
+/*
+ *---------------------------------------------------------------
+ * APPLICATION ENVIRONMENT
+ *---------------------------------------------------------------
+ *
+ * You can load different configurations depending on your
+ * current environment. Setting the environment also influences
+ * things like logging and error reporting.
+ *
+ * This can be set to anything, but default usage is:
+ *
+ *     development
+ *     testing
+ *     production
+ *
+ * NOTE: If you change these, also change the error_reporting() code below
+ */
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
-  if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) 
-  {
-      //to fully log out a visitor we need to clear the session varialbles
-      $_SESSION['MM_Username']  = NULL;
-      $_SESSION['MM_UserGroup'] = NULL;
-      $_SESSION['PrevUrl']      = NULL;
-      unset($_SESSION['MM_Username']);
-      unset($_SESSION['MM_UserGroup']);
-      unset($_SESSION['PrevUrl']);
+/*
+ *---------------------------------------------------------------
+ * ERROR REPORTING
+ *---------------------------------------------------------------
+ *
+ * Different environments will require different levels of error reporting.
+ * By default development will show errors but testing and live will hide them.
+ */
+switch (ENVIRONMENT)
+{
+	case 'development':
+		error_reporting(-1);
+		ini_set('display_errors', 1);
+	break;
 
-      $logoutGoTo = $url_relativa;
-      if ($logoutGoTo) 
-      {
-          header("Location: $logoutGoTo");
-          exit;
-      }
-  }
+	case 'testing':
+	case 'production':
+		ini_set('display_errors', 0);
+		if (version_compare(PHP_VERSION, '5.3', '>='))
+		{
+			error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
+		}
+		else
+		{
+			error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE);
+		}
+	break;
 
+	default:
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		echo 'The application environment is not set correctly.';
+		exit(1); // EXIT_ERROR
+}
 
-  $colname_usuario_sesion = "-1";
-  if (isset($_SESSION['MM_Username'])) 
-  {
-      $colname_usuario_sesion = $_SESSION['MM_Username'];
-  }
+/*
+ *---------------------------------------------------------------
+ * SYSTEM FOLDER NAME
+ *---------------------------------------------------------------
+ *
+ * This variable must contain the name of your "system" folder.
+ * Include the path if the folder is not in the same directory
+ * as this file.
+ */
+	$system_path = 'system';
 
-    $m_usuario          = new m_usuario();
-    $row_usuario_sesion = $m_usuario->getRegistros("email = '$colname_usuario_sesion'");
+/*
+ *---------------------------------------------------------------
+ * APPLICATION FOLDER NAME
+ *---------------------------------------------------------------
+ *
+ * If you want this front controller to use a different "application"
+ * folder than the default one you can set its name here. The folder
+ * can also be renamed or relocated anywhere on your server. If
+ * you do, use a full server path. For more info please see the user guide:
+ * https://codeigniter.com/user_guide/general/managing_apps.html
+ *
+ * NO TRAILING SLASH!
+ */
+	$application_folder = 'application';
 
-    $m_marca            = new m_marca();
-    $row_registros      = $m_marca->getRegistros();
-    
-    $m_provincia        = new m_provincia();
-    $row_registros2     = $m_provincia->getRegistros();
-
-    $colname_registros3 = $row_registros2['provincia'];
-    if (isset($_GET['provincia'])) {
-        $colname_registros3 = $_GET['provincia'];
-    }
-  
-  mysql_select_db($database_config, $config);
-  $query_registros3 = sprintf("SELECT dlg_localidad.localidad FROM dlg_localidad LEFT JOIN dlg_provincia ON dlg_localidad.idprovincia = dlg_provincia.idprovincia WHERE dlg_provincia.provincia LIKE %s ORDER BY localidad ASC", GetSQLValueString($colname_registros3, "text"));
-  $registros3 = mysql_query($query_registros3, $config) or die(mysql_error());
-  $row_registros3 = mysql_fetch_assoc($registros3);
-  $totalRows_registros3 = mysql_num_rows($registros3);
-
-  mysql_select_db($database_config, $config);
-  $query_registros4 = "SELECT * FROM dlg_servicio ORDER BY servicio ASC";
-  $registros4 = mysql_query($query_registros4, $config) or die(mysql_error());
-  $row_registros4 = mysql_fetch_assoc($registros4);
-  $totalRows_registros4 = mysql_num_rows($registros4);
-
-  mysql_select_db($database_config, $config);
-  $query_registros5 = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'home izquierda' AND publicar = 1 ORDER BY rand() LIMIT 1";
-  $registros5 = mysql_query($query_registros5, $config) or die(mysql_error());
-  $row_registros5 = mysql_fetch_assoc($registros5);
-  $totalRows_registros5 = mysql_num_rows($registros5);
-
-  mysql_select_db($database_config, $config);
-  $query_registros6 = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'home centro' AND publicar = 1 ORDER BY rand() LIMIT 1";
-  $registros6 = mysql_query($query_registros6, $config) or die(mysql_error());
-  $row_registros6 = mysql_fetch_assoc($registros6);
-  $totalRows_registros6 = mysql_num_rows($registros6);
-
-  mysql_select_db($database_config, $config);
-  $query_registros7 = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'home derecha' AND publicar = 1 ORDER BY rand() LIMIT 1";
-  $registros7 = mysql_query($query_registros7, $config) or die(mysql_error());
-  $row_registros7 = mysql_fetch_assoc($registros7);
-  $totalRows_registros7 = mysql_num_rows($registros7);
-
-  mysql_select_db($database_config, $config);
-  $query_registros8 = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'home abajo' AND publicar = 1 ORDER BY rand() LIMIT 1";
-  $registros8 = mysql_query($query_registros8, $config) or die(mysql_error());
-  $row_registros8 = mysql_fetch_assoc($registros8);
-  $totalRows_registros8 = mysql_num_rows($registros8);
-
-  if ((isset($_POST["MM_send"])) && ($_POST["MM_send"] == "formcontacto")) 
-  {
-      require_once ('class.phpmailer.php');
-      $mail = new PHPMailer();
-      $body = '<html><body>';
-      $body.= 'Nombre y Apellido: ' . $_POST['nombreyapellido'];
-      $body.= '<br><br>Mail o tel&eacute;fono: ' . $_POST['mailotelefono'];
-      $body.= '<br><br>Taller: ' . $_POST['taller'];
-      $body.= '</body></html>';
-      $mail = new PHPMailer();
-      $mail->IsHTML(true);
-      $mail->FromName = 'DE LA GRUA';
-      $mail->From = $email_admin_taller;
-      $mail->AddAddress($email_admin_taller);
-      $mail->Subject = utf8_decode("DE LA GRUA - Agregá tu taller");
-      $mail->Body = $body;
-      if ($mail->Send()) 
-      {
-          $mensaje = $_POST['nombreyapellido'] . '<br><br>Nos contactaremos para agregar el taller ' . $_POST['taller'] . ' al sitio De la grua.';
-      }else 
-      {
-          $mensaje = 'No se pudieron enviar los datos para agregar tu taller, por favor, intentalo más tarde.';
-      }
-  }
-    
-  include_once 'partials/header.php';
-  ?>
-<div class="cuadro-uno">
-  <!--c1-->
-  <div class="cont960">
-    <div class="box">
-      <!--box1-->
-      <img src="<?php
-        echo $url_relativa; ?>img/autos/a1.png">
-      <h1>¿MAL DÍA EH?</h1>
-      <p>¿Te abollaron la puerta? ¿Se pinchó una rueda? ¿Te agarró la piedra? ¿No arranca el motor?</p>
-    </div>
-    <!--box1-->
-    <div class="box">
-      <!--box2-->
-      <img src="<?php
-        echo $url_relativa; ?>img/autos/a2.png">
-      <h1>NO TE PREOCUPES!</h1>
-      <p>Acá podrás encontrar talleres profesionales para todos los problemas que tengas con tu vehículo</p>
-    </div>
-    <!--box2-->
-    <div class="box">
-      <!--box3--><img src="<?php
-        echo $url_relativa; ?>img/autos/a3.png" width="68" height="68" alt=""/>
-      <h1>Y LO MEJOR:</h1>
-      <p>Calificados por sus clientes. Para que no entres a cambiar el aceite y salgas con un motor nuevo.</p>
-    </div>
-    <!--box3-->
-  </div>
-</div>
-<!--c1-->
+/*
+ *---------------------------------------------------------------
+ * VIEW FOLDER NAME
+ *---------------------------------------------------------------
+ *
+ * If you want to move the view folder out of the application
+ * folder set the path to the folder here. The folder can be renamed
+ * and relocated anywhere on your server. If blank, it will default
+ * to the standard location inside your application folder. If you
+ * do move this, use the full server path to this folder.
+ *
+ * NO TRAILING SLASH!
+ */
+	$view_folder = '';
 
 
-    <div class="cuadro-busq">
-      <div class="cont960">
-        <p><a name="busca_taller" class="fa fa-search"></a> BUSCÁ UN TALLER A TU MEDIDA</p>
-        <?php include_once 'partials/searchForm.php'; ?>
-      </div>
-    </div>
+/*
+ * --------------------------------------------------------------------
+ * DEFAULT CONTROLLER
+ * --------------------------------------------------------------------
+ *
+ * Normally you will set your default controller in the routes.php file.
+ * You can, however, force a custom routing by hard-coding a
+ * specific controller class/function here. For most applications, you
+ * WILL NOT set your routing here, but it's an option for those
+ * special instances where you might want to override the standard
+ * routing in a specific front controller that shares a common CI installation.
+ *
+ * IMPORTANT: If you set the routing here, NO OTHER controller will be
+ * callable. In essence, this preference limits your application to ONE
+ * specific controller. Leave the function name blank if you need
+ * to call functions dynamically via the URI.
+ *
+ * Un-comment the $routing array below to use this feature
+ */
+	// The directory name, relative to the "controllers" folder.  Leave blank
+	// if your controller is not in a sub-folder within the "controllers" folder
+	// $routing['directory'] = '';
+
+	// The controller class file name.  Example:  mycontroller
+	// $routing['controller'] = '';
+
+	// The controller function you wish to be called.
+	// $routing['function']	= '';
 
 
-<div class="cuadro-dos">
-  <!--c2-->
-  <div class="cont960">
-    <div class="box2">
-      <?php
-        if ($totalRows_registros5 > 0) {
-            
-            // Show if recordset not empty
-
-        ?>
-      <a href="<?php
-        echo $row_registros5['enlace']; ?>" target="_blank"><img src="<?php
-        echo $url_relativa; ?>img/banner/<?php
-        echo $row_registros5['imagen']; ?>" alt=""/></a>
-      <?php
-        }
-
-        // Show if recordset not empty
-
-        ?>
-    </div>
-    <div class="vertical"></div>
-    <div class="box2">
-      <?php
-        if ($totalRows_registros6 > 0) {
-
-            // Show if recordset not empty
-
-        ?>
-      <a href="<?php
-        echo $row_registros6['enlace']; ?>" target="_blank"><img src="<?php
-        echo $url_relativa; ?>img/banner/<?php
-        echo $row_registros6['imagen']; ?>" alt=""/></a>
-      <?php
-        }
-
-        // Show if recordset not empty
-
-        ?>
-    </div>
-    <div class="vertical"></div>
-    <div class="box2">
-      <?php
-        if ($totalRows_registros7 > 0) {
-
-            // Show if recordset not empty
-
-        ?>
-      <a href="<?php
-        echo $row_registros7['enlace']; ?>" target="_blank"><img src="<?php
-        echo $url_relativa; ?>img/banner/<?php
-        echo $row_registros7['imagen']; ?>" alt=""/></a>
-      <?php
-        }
-
-        // Show if recordset not empty
-
-        ?>
-    </div>
-  </div>
-</div>
-<!--c2-->
-<div class="cuadro-tres">
-  <!--c3-->
-  <div class="cont960">
-    <div class="box">
-      <!--box1-->
-      <img src="<?php
-        echo $url_relativa; ?>img/iconos/estrella.png">
-      <h1>YO LO RECOMIENDO!</h1>
-      <p>Si calificas el taller que te dio un servicio, ayudas a otros clientes a que elijan lo mejor de lo mejor.</p>
-    </div>
-    <!--box1-->
-    <div class="box">
-      <!--box2-->
-      <img src="<?php
-        echo $url_relativa; ?>img/iconos/list.png">
-      <h1>NO HAY MAS TURNOS!</h1>
-      <p>Inscribí tu taller, gana reputación con las calificaciones y que crezca tu negocio, gratis para siempre.</p>
-    </div>
-    <!--box2-->
-    <div class="box">
-      <!--box3-->
-      <img src="<?php
-        echo $url_relativa; ?>img/iconos/cel.png">
-      <h1>EXITO!</h1>
-      <p>Gana el cliente y su vehículo, gana el buen tallerista, ganamos todos!</p>
-    </div>
-    <!--box3-->
-  </div>
-</div>
-<!--c3-->
-<div class="cuadro-cuatro">
-  <!--c4-->
-  <div class="cont960">
-    <div class="box3">
-      <div class="uno"><a class="fa fa-star"></a> CALIFICÁ UN TALLER</div>
-      <div class="dos">
-        <?php
-          if (!isset($_SESSION['MM_Username'])) { ?>
-        <h2>Para calificar, tenes que <a class="fancybox fancybox.iframe" href="/login.php">loguearte</a> al sitio.</h2>
-        <p>Podes usar tu perfil de Facebook o crear una cuenta en nuestro sitio. No queremos invadir tu privacidad, solo buscamos mantener la veracidad de las opiniones que reciben los tallleres.</p>
-        <?php
-          }
-          else { ?>
-        <h2>Para calificar, tenes que <a href="#busca_taller">buscar el taller</a>.</h2>
-        <p>Podes buscar el taller y al ver más información podrás calificarlo.</p>
-        <?php
-          } ?>
-      </div>
-    </div>
-    <div class="vertical-b"></div>
-    <div class="box3">
-      <div class="uno"><a name="agrega_taller" class="fa fa-list-alt"></a> AGREGÁ TU TALLER</div>
-      <div class="dos">
-        <div class="left">
-          <span class="queres">¿Querés que agreguemos tu taller?</span>
-          Déjanos tus datos y a la brevedad nos estaremos comunicando con vos.
-        </div>
-        <?php
-          if ($mensaje != '') { ?>
-        <div class="rigth">
-          <li><?php
-            echo $mensaje; ?></li>
-        </div>
-        <?php
-          }
-          else { ?>
-        <form ACTION="<?php echo $url_relativa; ?>contactos.php" METHOD="POST" id="formcontacto" name="formcontacto">
-          <div class="rigth">
-            <li><input name="nombre" type="text" id="nombre" placeholder="Nombre y Apellido" title="Nombre y Apellido" maxlength="250"></li>
-            <li><input name="mail_telefono" type="text" id="mailotelefono" placeholder="Mail o Teléfono" title="Mail o Teléfono" maxlength="250"></li>
-            <li><input name="taller" type="text" id="taller" placeholder="Taller" title="Taller" maxlength="250"><br></li>
-            <li>
-              <span class="login-pop">
-                    <button class="boton-b" type="submit" name="MM_send" value="formcontacto">
-                    ENVIAR!
-                    </button>
-              </span>
-              <!--
-              <div class="boton-b"><a href="#" onClick="MM_validateForm('nombreyapellido','','R','mailotelefono','','R','taller','','R');if( document.MM_returnValue){document.formcontacto.submit();}">ENVIAR!</a></div>
-              -->
-            </li>
-          </div>
-        </form>
-        <?php
-          } ?>
-      </div>
-    </div>
-    <div class="vertical-b"></div>
-    <div class="box3 recienAgregados">
-    <div class="uno"><a class="fa fa-arrow-up"></a> RECIEN AGREGADOS:</div>
-    <div class="dos">
+/*
+ * -------------------------------------------------------------------
+ *  CUSTOM CONFIG VALUES
+ * -------------------------------------------------------------------
+ *
+ * The $assign_to_config array below will be passed dynamically to the
+ * config class when initialized. This allows you to set custom config
+ * items or override any default config values found in the config.php file.
+ * This can be handy as it permits you to share one application between
+ * multiple front controller files, with each file containing different
+ * config values.
+ *
+ * Un-comment the $assign_to_config array below to use this feature
+ */
+	// $assign_to_config['name_of_config_item'] = 'value of config item';
 
 
-      <?php
-      $maxRows_registros10 = 4;
-      $pageNum_registros10 = 0;
-      if (isset($_GET['pageNum_registros10'])) {
-        $pageNum_registros10 = $_GET['pageNum_registros10'];
-      }
-      $startRow_registros10 = $pageNum_registros10 * $maxRows_registros10;
 
-      mysql_select_db($database_config, $config);
-      $query_registros10 = "SELECT * FROM dlg_taller ORDER BY idtaller DESC";
-      $query_limit_registros10 = sprintf("%s LIMIT %d, %d", $query_registros10, $startRow_registros10, $maxRows_registros10);
-      $registros10 = mysql_query($query_limit_registros10, $config) or die(mysql_error());
-      $row_registros10 = mysql_fetch_assoc($registros10);
+// --------------------------------------------------------------------
+// END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
+// --------------------------------------------------------------------
 
-      if (isset($_GET['totalRows_registros10'])) 
-      {
-        $totalRows_registros10 = $_GET['totalRows_registros10'];
-      }else 
-      {
-        $all_registros10 = mysql_query($query_registros10);
-        $totalRows_registros10 = mysql_num_rows($all_registros10);
-      }
-      $totalPages_registros10 = ceil($totalRows_registros10/$maxRows_registros10)-1;
+/*
+ * ---------------------------------------------------------------
+ *  Resolve the system path for increased reliability
+ * ---------------------------------------------------------------
+ */
 
-       ?>
-      <?php if ($totalRows_registros10 > 0) { // Show if recordset not empty ?>
-      <?php do { ?>
-      <?php
-      $colname_registros11 = $row_registros10['idtaller'];
-      mysql_select_db($database_config, $config);
-      $query_registros11 = sprintf("SELECT dlg_servicio.servicio FROM dlg_tallerservicio LEFT JOIN dlg_servicio ON dlg_tallerservicio.idservicio = dlg_servicio.idservicio WHERE dlg_tallerservicio.idtaller = %s ORDER BY dlg_servicio.servicio ASC", GetSQLValueString($colname_registros11, "int"));
-      $registros11 = mysql_query($query_registros11, $config) or die(mysql_error());
-      $row_registros11 = mysql_fetch_assoc($registros11);
-      $totalRows_registros11 = mysql_num_rows($registros11);
-      ?>
+	// Set the current directory correctly for CLI requests
+	if (defined('STDIN'))
+	{
+		chdir(dirname(__FILE__));
+	}
 
+	if (($_temp = realpath($system_path)) !== FALSE)
+	{
+		$system_path = $_temp.'/';
+	}
+	else
+	{
+		// Ensure there's a trailing slash
+		$system_path = rtrim($system_path, '/').'/';
+	}
 
-        <div class="recientes">
-          <!--recientes-->
-          <h2>
+	// Is the system path correct?
+	if ( ! is_dir($system_path))
+	{
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		echo 'Your system folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME);
+		exit(3); // EXIT_CONFIG
+	}
 
-          <a href="<?php echo $url_relativa . "taller/" . url2seo($row_registros10['nombre']) . "-" . $row_registros10['idtaller'] . "/"; ?>" >
-            <?php echo $row_registros10['nombre']; ?>
-            <i class="fa fa-plus-square"></i>
-          </a></h2>
-          <h3 class="gris"><?php if ($totalRows_registros11 > 0) { // Show if recordset not empty ?><?php do { ?> <?php echo $row_registros11['servicio']; ?>&nbsp;&nbsp;<?php } while ($row_registros11 = mysql_fetch_assoc($registros11)); ?><?php mysql_free_result($registros11);?><?php } // Show if recordset not empty ?></h3>
-        </div>
+/*
+ * -------------------------------------------------------------------
+ *  Now that we know the path, set the main path constants
+ * -------------------------------------------------------------------
+ */
+	// The name of THIS file
+	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
-      <!--recientes-->
-      <?php } while ($row_registros10 = mysql_fetch_assoc($registros10)); ?>
-      <?php } // Show if recordset not empty ?>
-      <hr>
+	// Path to the system folder
+	define('BASEPATH', str_replace('\\', '/', $system_path));
 
+	// Path to the front controller (this file)
+	define('FCPATH', dirname(__FILE__).'/');
 
-    </div>
-    </div>
-  </div>
-</div>
-<!--c4-->
-<?php
-  include_once 'partials/footer.php'; 
+	// Name of the "system folder"
+	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
 
-  mysql_free_result($registros);
-  mysql_free_result($registros2);
-  mysql_free_result($registros3);
-  mysql_free_result($registros4);
-  mysql_free_result($registros5);
-  mysql_free_result($registros6);
-  mysql_free_result($registros7);
-  mysql_free_result($registros8);
-  mysql_close($config);
-  ?>
+	// The path to the "application" folder
+	if (is_dir($application_folder))
+	{
+		if (($_temp = realpath($application_folder)) !== FALSE)
+		{
+			$application_folder = $_temp;
+		}
+
+		define('APPPATH', $application_folder.DIRECTORY_SEPARATOR);
+	}
+	else
+	{
+		if ( ! is_dir(BASEPATH.$application_folder.DIRECTORY_SEPARATOR))
+		{
+			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+			echo 'Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
+			exit(3); // EXIT_CONFIG
+		}
+
+		define('APPPATH', BASEPATH.$application_folder.DIRECTORY_SEPARATOR);
+	}
+
+	// The path to the "views" folder
+	if ( ! is_dir($view_folder))
+	{
+		if ( ! empty($view_folder) && is_dir(APPPATH.$view_folder.DIRECTORY_SEPARATOR))
+		{
+			$view_folder = APPPATH.$view_folder;
+		}
+		elseif ( ! is_dir(APPPATH.'views'.DIRECTORY_SEPARATOR))
+		{
+			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+			echo 'Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
+			exit(3); // EXIT_CONFIG
+		}
+		else
+		{
+			$view_folder = APPPATH.'views';
+		}
+	}
+
+	if (($_temp = realpath($view_folder)) !== FALSE)
+	{
+		$view_folder = $_temp.DIRECTORY_SEPARATOR;
+	}
+	else
+	{
+		$view_folder = rtrim($view_folder, '/\\').DIRECTORY_SEPARATOR;
+	}
+
+	define('VIEWPATH', $view_folder);
+
+/*
+ * --------------------------------------------------------------------
+ * LOAD THE BOOTSTRAP FILE
+ * --------------------------------------------------------------------
+ *
+ * And away we go...
+ */
+require_once BASEPATH.'core/CodeIgniter.php';
