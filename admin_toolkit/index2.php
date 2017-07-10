@@ -96,6 +96,14 @@ $(document).ready(function() {
 </div><!--wrapper-->
 </body>
 </html>
+
+<script>
+$("#backup_code").click(function(){
+    $.ajax({url: "http://localhost/delagrua/index.php/backup/", success: function(result){
+        alert(result);
+    }});
+});
+</script>
 <?php
 mysql_free_result($sesion);
 ?>

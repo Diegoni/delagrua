@@ -150,7 +150,7 @@
         <?php
           }
           else { ?>
-        <form ACTION="<?php echo base_url(); ?>contactos.php" METHOD="POST" id="formcontacto" name="formcontacto">
+        <form ACTION="<?php echo base_url(); ?>index.php/contactanos/contact/" METHOD="POST" id="formcontacto" name="formcontacto">
           <div class="rigth">
             <li><input name="nombre" type="text" id="nombre" placeholder="Nombre y Apellido" title="Nombre y Apellido" maxlength="250"></li>
             <li><input name="mail_telefono" type="text" id="mailotelefono" placeholder="Mail o Teléfono" title="Mail o Teléfono" maxlength="250"></li>

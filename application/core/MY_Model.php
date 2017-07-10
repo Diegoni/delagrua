@@ -465,7 +465,7 @@ class MY_Model extends CI_Model
 				'programa'      => $this->config->item('programa')	
 			);
 			
-			$this->db->insert('logs_usuarios', $arreglo);
+			//$this->db->insert('logs_usuarios', $arreglo);
 		}
 	}
 		
