@@ -12,7 +12,8 @@ class Search extends MY_Controller
             $model      = $this->_model 
         );
         
-        $this->load->model($this->_model, 'model'); // Linea obligatoria  		
+        $this->load->model($this->_model, 'model'); // Linea obligatoria  	
+        $this->load->model('m_banner');		
     } 
     
     
@@ -221,8 +222,16 @@ $registros12 = mysql_query($query_registros12, $config) or die(mysql_error());
 $row_registros12 = mysql_fetch_assoc($registros12);
 $totalRows_registros12 = mysql_num_rows($registros12);
 
-mysql_select_db($database_config, $config);
-$query_registros13 = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'busqueda medio' AND publicar = 1 ORDER BY rand() LIMIT 1";
+
+
+		mysql_select_db($database_config, $config);
+$query_registros12 = "";
+$registros12 = mysql_query($query_registros12, $config) or die(mysql_error());
+$row_registros12 = mysql_fetch_assoc($registros12);
+$totalRows_registros12 = mysql_num_rows($registros12);
+
+ mysql_select_db($database_config, $config);
+$query_registros13 = 
 $registros13 = mysql_query($query_registros13, $config) or die(mysql_error());
 $row_registros13 = mysql_fetch_assoc($registros13);
 $totalRows_registros13 = mysql_num_rows($registros13);
@@ -233,8 +242,371 @@ $registros14 = mysql_query($query_registros14, $config) or die(mysql_error());
 $row_registros14 = mysql_fetch_assoc($registros14);
 $totalRows_registros14 = mysql_num_rows($registros14);
 */
+
+		$sql = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'busqueda arriba' AND publicar = 1 ORDER BY rand() LIMIT 1";
+		$db['banners'] = $this->m_banner->getBanner($sql);
+		$sql = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'busqueda medio' AND publicar = 1 ORDER BY rand() LIMIT 1";
+		$db['banners2'] = $this->m_banner->getRegistros();
+		$sql = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'busqueda abajo' AND publicar = 1 ORDER BY rand() LIMIT 1";
+		$db['banners3'] = $this->m_banner->getRegistros();
+
+		$db['totalRows_registros']	= FALSE;
+		$db['query']	= FALSE;
+				
+		$db['searchLeft']	= $this->searchLeft();	
+		$db['searchForm']	= $this->searchForm();	
+		$db['searchCenter']	= $this->searchCenter();	
 		
-        $this->armarVista('inicio', $db);
+			
+        $this->armarVista('search', $db);
     }
+    
+	
+	
+	function searchLeft()
+	{
+		$html = '';
+		//if ($totalRows_registros)
+		if (FALSE)	
+		{
+			$html .= '<h1>FILTRAR RESULTADOS</h1>';
+			$html .= '<a href="#" class="button mobileFilterToggle">';
+			$html .= 'Filtrar resultados';
+			$html .= '<i class="fa fa-chevron-down"></i>';
+			$html .= '</a>';
+	
+      		// filter queries
+			$servicios_results = mysql_query($servicios, $config) or die(mysql_error());
+			$servicios_qty = mysql_num_rows($servicios_results);
+
+			$marcas_results = mysql_query($marcas, $config) or die(mysql_error());
+			$marcas_qty = mysql_num_rows($marcas_results);
+
+			$localidades_results = mysql_query($localidades, $config) or die(mysql_error());
+			$localidades_qty = mysql_num_rows($localidades_results);
+
+
+			$html .= '<div class="filtering">';
+
+			if ($urlData['servicio'] || $urlData['localidad'] || $urlData['marca'])
+			{
+				$html .= '<div class="activefilters">';
+				$html .= '<ul>';
+				$html .= '<li class="reset">';
+				$html .= '<a href="'.urlHelper($urlData, array('servicio' => null, 'localidad' => null, 'marca' => null)).'">Resetear todos los filtros</a>';
+				$html .= '</li>';
+
+				if ($urlData['servicio'])
+				{
+					$html .= '<li class="activeFilter">';
+					$html .= $urlData['servicio'];
+					$html .= '<a href="'.urlHelper($urlData, array('servicio' => null)).'">';
+					$html .= '<i class="fa fa-times"></i>';
+					$html .= '</a>';
+					$html .= '</li>';
+				}
+
+				if ($urlData['localidad'])
+				{
+					$html .= '<li class="activeFilter">';
+					$html .= $urlData['localidad'];
+					$html .= '<a href="'.urlHelper($urlData, array('localidad' => null)).'">';
+					$html .= '<i class="fa fa-times"></i>';
+					$html .= '</a>';
+					$html .= '</li>';
+				}
+
+				if ($urlData['marca'])
+				{
+					$html .= '<li class="activeFilter">';
+					$html .= $urlData['marca'];
+					$html .= '<a href="'.urlHelper($urlData, array('marca' => null)).'">';
+					$html .= '<i class="fa fa-times"></i>';
+					$html .= '</a>';
+					$html .= '</li>';
+				}
+
+				$html .= '</ul>';
+				$html .= '<hr>';
+				$html .= '</div>';
+			}
+
+			$html .= '<div class="filterSelect">';
+
+			if ($servicios_qty && !$urlData['servicio'])
+			{
+				$html .= '<h2>Servicios</h2>';
+				$html .= '<div class="filterList servicios">';
+				$html .= '<ul>';
+				while ($servicio = mysql_fetch_array($servicios_results, MYSQL_NUM)) 
+				{
+					$html .= '<li>';
+					$html .= '<a href="'.urlHelper($urlData, array('servicio' => $servicio[1])).'">'.$servicio[1].'</a> ('.$servicio[0].')';
+					$html .= '</li>';
+				}
+				$html .= '</ul>';
+				$html .= '</div>';
+			}
+
+		
+			if ($marcas_qty && !$urlData['marca'])
+			{
+				$html .= '<h2>Marcas</h2>';
+				$html .= '<div class="filterList marcas">';
+				$html .= '<ul>';
+				while ($marca = mysql_fetch_array($marcas_results, MYSQL_NUM)) 
+				{
+					$html .= '<li>';
+					$html .= '<a href="'.urlHelper($urlData, array('marca' => $marca[1] )).'">'.$marca[1].'</a> ('.$marca[0].')';
+					$html .= '</li>';
+				}
+				$html .= '</ul>';
+				$html .= '</div>';
+			}
+
+	
+			if ($localidades_qty && !$urlData['localidad'])
+			{
+				$html .= '<h2>Localidades</h2>';
+				$html .= '<div class="filterList localidades">';
+				$html .= '<ul>';
+				while ($localidad = mysql_fetch_array($localidades_results, MYSQL_NUM)) 
+				{
+					$html .= '<li>';
+					$html .= '<a href="'.urlHelper($urlData, array('localidad' => $localidad[1] )).'">'.$localidad[1].'</a> ('.$localidad[0].')';
+					$html .= '</li>';
+				} 
+				$html .= '</ul>';
+				$html .= '</div>';
+			}
+
+			$html .= '</div>';
+
+			$html .= '</div>';
+		}
+
+		return $html;
+	}
+
+
+	function searchForm()
+	{
+		$html = '<form method="get" action="'.base_url().'index.php/search" id="formbuscar" name="formbuscar" >';
+
+		$html .= '<input type="radio" name="v" value="auto" id="vAuto" checked><label for="vAuto"> Auto</label>';
+		$html .= '<input type="radio" name="v" value="moto" id="vMoto" '.isset($_GET['v']) && $_GET['v'] == "moto" ? "checked" : '' .'><label for="vMoto"> Moto</label>';
+		$html .= '<br>';
+
+		//$html .= '<input id="search" name="q" type="text" placeholder="Buscá por nombre, tipo de taller o localidad" value="'.isset($query) && $query ? $query : "''" .'">';
+
+		$html .= '<input id="search" name="q" type="text" placeholder="Buscá por nombre, tipo de taller o localidad">';
+		
+		$html .= '<button class="button secondary large" >Buscar</button>';
+		$html .= '</form>';
+		
+		return $html;
+	
+	}
+
+
+	function searchCenter($totalRows_registros = NULL)
+	{
+		if($totalRows_registros == NULL)
+		{
+			$totalRows_registros = 0;
+		}
+		
+		
+		$html = '<div class="results-'.$totalRows_registros.' centro">';
+
+		if ($totalRows_registros > 0) 
+		{ 
+			do 
+			{ 
+				$colname_registros11 = $row_registros['idtaller'];
+				mysql_select_db($database_config, $config);
+				$query_registros11 = sprintf("SELECT dlg_servicio.servicio FROM dlg_tallerservicio LEFT JOIN dlg_servicio ON dlg_tallerservicio.idservicio = dlg_servicio.idservicio WHERE dlg_tallerservicio.idtaller = %s ORDER BY dlg_servicio.servicio ASC", GetSQLValueString($colname_registros11, "int"));
+				$registros11 = mysql_query($query_registros11, $config) or die(mysql_error());
+				$row_registros11 = mysql_fetch_assoc($registros11);
+				$totalRows_registros11 = mysql_num_rows($registros11);
+
+				$colname_registro2 = $row_registros['idtaller'];
+				mysql_select_db($database_config, $config);
+				$query_registro2 = sprintf("SELECT COUNT(atencion) AS atencionvotos, SUM(atencion) AS atencionvalor, COUNT(precio) AS preciovotos, SUM(precio) AS preciovalor, COUNT(servicio) AS serviciovotos, SUM(servicio) AS serviciovalor FROM dlg_calificacion WHERE publicar = '1' AND idtaller = %s", GetSQLValueString($colname_registro2, "int"));
+				$registro2 = mysql_query($query_registro2, $config) or die(mysql_error());
+				$row_registro2 = mysql_fetch_assoc($registro2);
+				$totalRows_registro2 = mysql_num_rows($registro2);
+
+				$html .= '<div class="box-centro">';
+				$html .= '<h2>';
+				$html .= '<a href="'.$url_relativa . "taller/" . url2seo($row_registros['nombre']) . "-" . $row_registros['idtaller'] .  "/".'">';
+                $html .= $row_registros['nombre'];
+				$html .= '<i class="fa fa-plus-square"></i>';
+				$html .= '</a>';
+				$html .= '</h2>';
+        		$html .= '<p>';
+           		$html .= '<i class="fa fa-map-marker"></i>';
+            	$html .= '<span class="gris">';
+                $html .= getAddress($row_registros);
+            	$html .= '</span>';
+				$html .= '</p>';
+
+				$html .= '<h3>&nbsp;</h3>';
+				$html .= '<div class="box-iconos2"><i class="fa fa-wrench"></i>';
+				if ($totalRows_registros11 > 0) 
+				{
+        			do 
+        			{
+        				$html .= '<a class="b1">';
+        				$html .= $row_registros11['servicio'];
+        				$html .= '</a>';
+        			}
+        			while ($row_registros11 = mysql_fetch_assoc($registros11));
+        			mysql_free_result($registros11);
+				}
+    			$html .= '</div>';
+
+    			$html .= '<div class="box-iconos">';
+    			$html .= '<i class="fa fa-star-half-empty"></i>';
+    			$html .= '<p>ATENCION&nbsp';
+    		
+    			if($row_registro2['atencionvotos'] > 0){
+    				$estrellas = round($row_registro2['atencionvalor']/$row_registro2['atencionvotos']);
+    			} else {
+    				$estrellas = 0;
+    			}
+				
+    			switch ($estrellas) 
+    			{
+	    			case 0:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/>";
+	    			break;
+	    			case 1:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"i" .  $url_relativa . "mg/iconos/estrellita-gris.png\"/>";
+	    			break;
+	    			case 2:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/>";
+	    			break;
+	    			case 3:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/>";
+	    			break;
+	    			case 4:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/>";
+	    			break;
+	    			case 5:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"/>";
+	    			break;
+    			}
+    		
+    			$html .= '<span class="gris">&nbsp;&nbsp;'. $row_registro2['atencionvotos'].' VOTOS</span>';
+    			$html .= '</p>';
+    			$html .= '</div>';
+    			
+    			$html .= '<div class="box-iconos">';
+    			$html .= '<i class="fa fa-star-half-empty"></i>';
+    			$html .= '<p>PRECIO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    			
+    			if($row_registro2['preciovotos'] > 0)
+    			{
+    				$estrellas = round($row_registro2['preciovalor']/$row_registro2['preciovotos']);
+    			} else 
+    			{
+    				$estrellas = 0;
+    			}
+				
+    			switch ($estrellas) 
+    			{
+	    			case 0:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/>";
+	    			break;
+	    			case 1:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/>";
+	    			break;
+	    			case 2:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/>";
+	    			break;
+	    			case 3:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/>";
+	    			break;
+	    			case 4:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/>";
+	    			break;
+	    			case 5:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"/>";
+	    			break;
+    			}
+    		
+    			$html .= '<span class="gris">&nbsp;&nbsp;'. $row_registro2['preciovotos'].' VOTOS</span>';
+    			$html .= '</p>';
+    			$html .= '</div>';
+    			$html .= '<div class="box-iconos">';
+    			$html .= '<i class="fa fa-star-half-empty"></i>';
+    			$html .= '<p>SERVICIO&nbsp;&nbsp;&nbsp;&nbsp;';
+    			
+    			if($row_registro2['serviciovotos'] > 0)
+    			{
+    				$estrellas = round($row_registro2['serviciovalor']/$row_registro2['serviciovotos']);
+    			} else 
+    			{
+    				$estrellas = 0;
+    			}
+				
+    			switch ($estrellas) 
+    			{
+	    			case 0:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/>";
+	    			break;
+	    			case 1:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/>";
+	    			break;
+	    			case 2:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/>";
+	    			break;
+	    			case 3:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/>";
+	    			break;
+	    			case 4:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  $url_relativa . "img/iconos/estrellita-gris.png\"/>";
+	    			break;
+	    			case 5:
+	    			$html .= "<img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  $url_relativa . "img/iconos/estrellita-amarilla.png\">";
+	    			break;
+    			}
+
+    			$html .= '<span class="gris">&nbsp;&nbsp;'.$row_registro2['serviciovotos'].' VOTOS</span>';
+    			$html .= '</p>';
+    			$html .= '</div>';
+				$html .= '</div>';
+
+			} while ($row_registros = mysql_fetch_assoc($registros));
+		} // Show if recordset not empty 
+		
+		if ($totalRows_registros > 0) 
+		{ // Show if recordset not empty 
+
+			if(!isset($_GET['ordenarpor'])) 
+			{
+				$ordenarpor = 'nombre';
+			}else 
+			{
+				$ordenarpor = $_GET['ordenarpor'];
+			}
+			
+			if(!isset($_GET['orden'])) 
+			{
+				$orden = 'ASC';
+			} else 
+			{
+				$orden = $_GET['orden'];
+			}
+		
+			include_once 'partials/searchPagination.php'; 
+		} else 
+		{
+			$html .= '<h2>No hay resultados para «<?php echo $query ?>»</h2>';
+		}
+		 
+		return $html;
+	}
 }
 ?>

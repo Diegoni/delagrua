@@ -15,5 +15,10 @@ class m_banner extends MY_Model
 			$relation		= $this->_relation
 		);
 	}
+	
+	function getBanner($sql)
+	{
+		return $this->getQuery($sql);
+	}
 } 
 ?>
