@@ -2,7 +2,7 @@
 header('Access-Control-Allow-Origin: *');
 class Inicio extends MY_Controller 
 {
-    protected $_subject = 'Inicio'; 
+    protected $_subject = 'inicio'; 
     protected $_model   = 'm_usuario';
     
     function __construct()

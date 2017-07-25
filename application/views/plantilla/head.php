@@ -1,6 +1,6 @@
 <?php 
-header("Access-Control-Allow-Origin", "*");
-header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//header("Access-Control-Allow-Origin", "*");
+//header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 $_config['libraries'] = base_url().'librerias/';
 ?>
 <!DOCTYPE html>
@@ -27,8 +27,7 @@ $_config['libraries'] = base_url().'librerias/';
 	} 
 	?>
   	</title>
-  
-  	<link rel="icon" href="<?php echo base_url();?>favicon.png" type="image/png" />
+
   	<link rel="icon" href="<?php echo base_url();?>favicon.ico" type="image/vnd.microsoft.icon" />
   	<link rel="shortcut icon" href="<?php echo base_url();?>favicon.ico" /><meta name="description" content="">
  
@@ -102,15 +101,20 @@ function actualizar2()
     <div class="cont"><!--cont-->
       <div class="cont960">
        <div class="login">
-         <?php if (!isset($_SESSION['MM_Username'])) { ?>
+         <?php //if (!isset($_SESSION['MM_Username'])) {
+         	if (TRUE) { 
+         	?>
          <p class="user">&nbsp;
          </p>
-         <p class="log"><a class="fancybox fancybox.iframe" href="<?php echo base_url();?>login.php">Inicia sesión</a> <a class="fancybox fancybox.iframe fa fa-power-off" href="<?php echo base_url();?>login.php"></a></p>
+         <p class="log"><a class="fancybox fancybox.iframe" href="<?php echo base_url();?>index.php/login/">Inicia sesión</a> <a class="fancybox fancybox.iframe fa fa-power-off" href="<?php echo base_url();?>login.php"></a></p>
          <?php } else { ?>
          <p class="user">
           HOLA <?php echo $row_usuario_sesion['nick']; ?>
         </p>
+        <?php if(isset($logoutAction)){ ?>
         <p class="log"><a href="<?php echo $logoutAction ?>">Cerra sesión</a> <a class="fancybox fancybox.iframe fa fa-power-off" href="<?php echo $logoutAction ?>"></a>
+        	
+        <?php } ?>
          <?php if($row_usuario_sesion['fblogin'] == 0){?>
          <br>
          <a class="fancybox fancybox.iframe" href="<?php echo base_url();?>login_cambia_clave.php">Cambia tu clave</a> <a class="fancybox fancybox.iframe fa fa-wrench" href="<?php echo base_url();?>login_cambia_clave.php"></a></p>
@@ -140,7 +144,9 @@ function actualizar2()
     ?>    
      <ul>
       <li><a href="<?php echo base_url();?>#busca_taller">BUSCA UN TALLER</a></li>
-      <?php if (!isset($_SESSION['MM_Username'])) { ?>
+      <?php //if (!isset($_SESSION['MM_Username'])) { 
+      	if (TRUE) { 
+      	?>
       <li><a class="fancybox fancybox.iframe" href="<?php echo base_url();?>login.php">CALIFICA UN TALLER</a></li>
       <?php } else { ?>
       <li><a href="<?php echo base_url();?>#busca_taller">CALIFICA UN TALLER</a></li>

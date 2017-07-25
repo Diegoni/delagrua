@@ -5,7 +5,7 @@ jQuery(document).ready(function($) {
         return false;
     });
 });
-
+/*
 $(document).ready(function() {
 	      $('.fancybox').fancybox({
 	        type: 'iframe',
@@ -15,3 +15,4 @@ $(document).ready(function() {
 	        'height': '100%'
 	      });
 	    });
+*/

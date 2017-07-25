@@ -1,8 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
-class Terminos extends MY_Controller 
+class Login extends MY_Controller 
 {
-    protected $_subject = 'terminos'; 
+    protected $_subject = 'login'; 
     protected $_model   = 'm_usuario';
     
     function __construct()
@@ -13,7 +13,6 @@ class Terminos extends MY_Controller
         );
         
         $this->load->model($this->_model, 'model'); // Linea obligatoria  
-        $this->load->model('m_usuario');			
     } 
     
     
@@ -28,17 +27,8 @@ class Terminos extends MY_Controller
     
     function index()
     {
-    	$colname_usuario_sesion = "-1";
-		/*
-		if (isset($_SESSION['MM_Username'])) {
-  			$colname_usuario_sesion = $_SESSION['MM_Username'];
-		}
-		*/
-		$where = array(
-			'email' => $colname_usuario_sesion,
-		);
-	    $db['row_usuario_sesion'] = $this->m_usuario->getRegistros($where);
-        $this->armarVista('terminos', $db);
+    	$db['test'] = 1;
+    	$this->load->view($this->_subject.'/inicio', $db);
     }
 }
 ?>
