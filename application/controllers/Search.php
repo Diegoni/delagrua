@@ -458,22 +458,22 @@ $totalRows_registros9 = mysql_num_rows($registros9);
     			switch ($estrellas) 
     			{
 	    			case 0:
-	    			$html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/>";
+	    			$html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
 	    			break;
 	    			case 1:
-	    			$html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"i" .  base_url() . "mg/iconos/estrellita-gris.png\"/>";
+	    			$html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"i" .  base_url() . "mg/iconos/estrellita-gris.png\"/>";
 	    			break;
 	    			case 2:
-	    			$html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/>";
+	    			$html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
 	    			break;
 	    			case 3:
-	    			$html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/>";
+	    			$html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
 	    			break;
 	    			case 4:
-	    			$html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/>";
+	    			$html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
 	    			break;
 	    			case 5:
-	    			$html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/>";
+	    			$html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/>";
 	    			break;
     			}
     		
@@ -500,22 +500,22 @@ $totalRows_registros9 = mysql_num_rows($registros9);
     			switch ($estrellas) 
     			{
 	    			case 0:
-                    $html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/>";
+                    $html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
                     break;
                     case 1:
-                    $html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"i" .  base_url() . "mg/iconos/estrellita-gris.png\"/>";
+                    $html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"i" .  base_url() . "mg/iconos/estrellita-gris.png\"/>";
                     break;
                     case 2:
-                    $html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/>";
+                    $html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
                     break;
                     case 3:
-                    $html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/>";
+                    $html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
                     break;
                     case 4:
-                    $html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/>";
+                    $html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
                     break;
                     case 5:
-                    $html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/>";
+                    $html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/>";
                     break;
     			}
     		
@@ -541,22 +541,22 @@ $totalRows_registros9 = mysql_num_rows($registros9);
     			switch ($estrellas) 
     			{
                     case 0:
-                    $html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/>";
+                    $html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
                     break;
                     case 1:
-                    $html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"i" .  base_url() . "mg/iconos/estrellita-gris.png\"/>";
+                    $html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"i" .  base_url() . "mg/iconos/estrellita-gris.png\"/>";
                     break;
                     case 2:
-                    $html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/>";
+                    $html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
                     break;
                     case 3:
-                    $html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/>";
+                    $html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
                     break;
                     case 4:
-                    $html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-gris.png\"/>";
+                    $html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
                     break;
                     case 5:
-                    $html .= "<img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "img/iconos/estrellita-amarilla.png\"/>";
+                    $html .= "<img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" .  base_url() . "assets/img/iconos/estrellita-amarilla.png\"/>";
                     break;
     			}
 
