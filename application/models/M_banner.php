@@ -16,9 +16,23 @@ class m_banner extends MY_Model
 		);
 	}
 	
-	function getBanner($sql)
-	{
-		return $this->getQuery($sql);
-	}
+	function getBanner($ubicacion)
+    {
+        $sql = "
+        SELECT 
+            imagen, 
+            enlace 
+        FROM 
+            dlg_banner 
+        WHERE 
+            ubicacion = '".$ubicacion."' AND 
+            publicar = 1 
+        ORDER BY 
+            rand() 
+        LIMIT 
+            1";
+            
+        return $this->getQuery($sql);            
+    }
 } 
 ?>

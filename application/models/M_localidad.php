@@ -20,5 +20,13 @@ class m_localidad extends MY_Model
 			$relation		= $this->_relation
 		);
 	}
+    
+    function getLocalidad($name)
+    {
+        $query_registros = getSearch($name, $tipoauto);
+        $query_registros .= sprintf(" AND locality LIKE %s ", GetSQLValueString($_GET['localidad'], "text"));
+        $query_registros .= "GROUP BY idtaller ORDER BY sum(relevance) DESC";
+        $localidades = "SELECT count(*) AS count , locality, administrative_area_level_1  FROM ($query_registros) results GROUP BY locality, administrative_area_level_1 ORDER BY count DESC" ;
+    } 
 } 
 ?>

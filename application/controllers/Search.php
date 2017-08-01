@@ -13,7 +13,11 @@ class Search extends MY_Controller
         );
         
         $this->load->model($this->_model, 'model'); // Linea obligatoria  	
-        $this->load->model('m_banner');		
+        $this->load->model('m_banner');	
+        $this->load->model('m_servicio');
+        $this->load->model('m_marca');
+        $this->load->model('m_localidad');
+        
     } 
     
     
@@ -185,23 +189,6 @@ $registros4 = mysql_query($query_registros4, $config) or die(mysql_error());
 $row_registros4 = mysql_fetch_assoc($registros4);
 $totalRows_registros4 = mysql_num_rows($registros4);
 
-mysql_select_db($database_config, $config);
-$query_registros5 = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'home izquierda' AND publicar = 1 ORDER BY rand() LIMIT 1";
-$registros5 = mysql_query($query_registros5, $config) or die(mysql_error());
-$row_registros5 = mysql_fetch_assoc($registros5);
-$totalRows_registros5 = mysql_num_rows($registros5);
-
-mysql_select_db($database_config, $config);
-$query_registros6 = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'home centro' AND publicar = 1 ORDER BY rand() LIMIT 1";
-$registros6 = mysql_query($query_registros6, $config) or die(mysql_error());
-$row_registros6 = mysql_fetch_assoc($registros6);
-$totalRows_registros6 = mysql_num_rows($registros6);
-
-mysql_select_db($database_config, $config);
-$query_registros7 = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'home derecha' AND publicar = 1 ORDER BY rand() LIMIT 1";
-$registros7 = mysql_query($query_registros7, $config) or die(mysql_error());
-$row_registros7 = mysql_fetch_assoc($registros7);
-$totalRows_registros7 = mysql_num_rows($registros7);
 
 mysql_select_db($database_config, $config);
 $query_registros8 = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'home abajo' AND publicar = 1 ORDER BY rand() LIMIT 1";
@@ -215,40 +202,11 @@ $registros9 = mysql_query($query_registros9, $config) or die(mysql_error());
 $row_registros9 = mysql_fetch_assoc($registros9);
 $totalRows_registros9 = mysql_num_rows($registros9);
 
-
-mysql_select_db($database_config, $config);
-$query_registros12 = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'busqueda arriba' AND publicar = 1 ORDER BY rand() LIMIT 1";
-$registros12 = mysql_query($query_registros12, $config) or die(mysql_error());
-$row_registros12 = mysql_fetch_assoc($registros12);
-$totalRows_registros12 = mysql_num_rows($registros12);
-
-
-
-		mysql_select_db($database_config, $config);
-$query_registros12 = "";
-$registros12 = mysql_query($query_registros12, $config) or die(mysql_error());
-$row_registros12 = mysql_fetch_assoc($registros12);
-$totalRows_registros12 = mysql_num_rows($registros12);
-
- mysql_select_db($database_config, $config);
-$query_registros13 = 
-$registros13 = mysql_query($query_registros13, $config) or die(mysql_error());
-$row_registros13 = mysql_fetch_assoc($registros13);
-$totalRows_registros13 = mysql_num_rows($registros13);
-
-mysql_select_db($database_config, $config);
-$query_registros14 = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'busqueda abajo' AND publicar = 1 ORDER BY rand() LIMIT 1";
-$registros14 = mysql_query($query_registros14, $config) or die(mysql_error());
-$row_registros14 = mysql_fetch_assoc($registros14);
-$totalRows_registros14 = mysql_num_rows($registros14);
 */
 
-		$sql = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'busqueda arriba' AND publicar = 1 ORDER BY rand() LIMIT 1";
-		$db['banners'] = $this->m_banner->getBanner($sql);
-		$sql = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'busqueda medio' AND publicar = 1 ORDER BY rand() LIMIT 1";
-		$db['banners2'] = $this->m_banner->getRegistros();
-		$sql = "SELECT imagen, enlace FROM dlg_banner WHERE ubicacion = 'busqueda abajo' AND publicar = 1 ORDER BY rand() LIMIT 1";
-		$db['banners3'] = $this->m_banner->getRegistros();
+		$db['banners'] = $this->m_banner->getBanner('busqueda arriba');
+		$db['banners2'] = $this->m_banner->getBanner('busqueda medio');
+		$db['banners3'] = $this->m_banner->getBanner('busqueda abajo');
 
 		$db['totalRows_registros']	= FALSE;
 		$db['query']	= FALSE;
@@ -267,24 +225,25 @@ $totalRows_registros14 = mysql_num_rows($registros14);
 	{
 		$html = '';
 		//if ($totalRows_registros)
-		if (FALSE)	
+		if (TRUE)	
 		{
 			$html .= '<h1>FILTRAR RESULTADOS</h1>';
 			$html .= '<a href="#" class="button mobileFilterToggle">';
 			$html .= 'Filtrar resultados';
 			$html .= '<i class="fa fa-chevron-down"></i>';
 			$html .= '</a>';
-	
-      		// filter queries
-			$servicios_results = mysql_query($servicios, $config) or die(mysql_error());
-			$servicios_qty = mysql_num_rows($servicios_results);
-
-			$marcas_results = mysql_query($marcas, $config) or die(mysql_error());
-			$marcas_qty = mysql_num_rows($marcas_results);
-
-			$localidades_results = mysql_query($localidades, $config) or die(mysql_error());
-			$localidades_qty = mysql_num_rows($localidades_results);
-
+            
+            $query =  $_GET['q'];
+            $tipovehiculo =  $_GET['v'];
+            
+            $servicios_results = $this->m_servicio->getServicio($query, $tipovehiculo);
+            $servicios_qty = count($servicios_results);
+            
+            $marcas_results = $this->m_marca->getMarca($query, $tipovehiculo);
+            $marcas_qty = count($marcas_results);
+            
+            $localidades_results = $this->m_localidad->getLocalidad($query, $tipovehiculo);
+            $localidades_qty = count($localidades_results);
 
 			$html .= '<div class="filtering">';
 
