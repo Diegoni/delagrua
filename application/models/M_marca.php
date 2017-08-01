@@ -17,12 +17,14 @@ class m_marca extends MY_Model
 	}
     
     
-    function getServicio($name)
+    function getMarca($name, $tipoauto)
     {
-        $query_registros = getSearch($name, $tipoauto);
-        $query_registros .= sprintf(" AND marca LIKE %s ", GetSQLValueString($_GET['marca'], "text"));
+        $query_registros = $this->getSearch($name, $tipoauto);
+        //$query_registros .= sprintf(" AND marca LIKE %s ", GetSQLValueString($_GET['marca'], "text"));
         $query_registros .= "GROUP BY idtaller ORDER BY sum(relevance) DESC";
-        $marcas = "SELECT count(*) AS count , marca  FROM ($query_registros) results GROUP BY marca ORDER BY count DESC" ;
+        $sql = "SELECT count(*) AS count , marca  FROM ($query_registros) results GROUP BY marca ORDER BY count DESC" ;
+        
+        return $this->getQuery($sql);  
     } 
 } 
 ?>

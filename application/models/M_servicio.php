@@ -16,15 +16,14 @@ class m_servicio extends MY_Model
 		);
 	}
     
-    function getServicio($name)
+    function getServicio($name, $tipoauto)
     {
-        $query_registros = getSearch($name, $tipoauto);
-        $query_registros .= sprintf(" AND servicio LIKE %s ", GetSQLValueString($_GET['servicio'], "text"));
+        $query_registros = $this->getSearch($name, $tipoauto);
+        //$query_registros .= sprintf(" AND servicio LIKE %s ", GetSQLValueString($_GET['servicio'], "text"));
         $query_registros .= "GROUP BY idtaller ORDER BY sum(relevance) DESC";
-        $servicios = "SELECT count(*) AS count , servicio  FROM ($query_registros) results GROUP BY servicio ORDER BY count DESC" ;
+        $sql = "SELECT count(*) AS count , servicio  FROM ($query_registros) results GROUP BY servicio ORDER BY count DESC" ;
             
-        return $this->getQuery($sql);            
-            
+        return $this->getQuery($sql);   
     }
 } 
 ?>

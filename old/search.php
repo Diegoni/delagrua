@@ -147,6 +147,8 @@ $urlData = array(
 $query_limit_registros = sprintf("%s LIMIT %d, %d", $query_registros, $startRow_registros, $maxRows_registros);
 $registros = mysql_query($query_limit_registros, $config) or die(mysql_error());
 $row_registros = mysql_fetch_assoc($registros);
+
+
 if (isset($_GET['totalRows_registros'])) {
   $totalRows_registros = $_GET['totalRows_registros'];
 } else {
