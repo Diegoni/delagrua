@@ -49,7 +49,7 @@ class m_taller extends MY_Model
         }else if('all')
         {
             $sql = $this->getSearch('', 'auto');   
-            $sql .= "
+            $sql .= " 
             GROUP BY 
                 idtaller 
             ORDER BY 
