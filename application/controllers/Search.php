@@ -35,10 +35,9 @@ class Search extends MY_Controller
     
     function index()
     {
-        $db['banners'] = $this->m_banner->getBanner('busqueda arriba');
+        $db['banners']  = $this->m_banner->getBanner('busqueda arriba');
 		$db['banners2'] = $this->m_banner->getBanner('busqueda medio');
 		$db['banners3'] = $this->m_banner->getBanner('busqueda abajo');
-
 		
         $db['maxRows_registros'] = 10;
         
@@ -62,8 +61,7 @@ class Search extends MY_Controller
         }else
         {
             $db['query'] = '';
-        }
-        
+        }        
         
         if (isset($_GET['v']))
         {
@@ -79,9 +77,15 @@ class Search extends MY_Controller
         );
         
         $db['registros'] = $this->m_taller->getTaller($querys, 'all', $limit);
-        $db['totalRows_registros'] = count($this->m_taller->getTaller($querys, 'all'));
+        $totalRows_registros = $this->m_taller->getTaller($querys, 'all');
+        if($totalRows_registros)
+        {
+            $db['totalRows_registros'] = count($totalRows_registros);    
+        }else{
+            $db['totalRows_registros'] = 0; 
+        }        
 				
-		$db['searchLeft']	= $this->searchLeft();	
+		$db['searchLeft']	= $this->searchLeft($db['totalRows_registros']);	
 		$db['searchForm']	= $this->searchForm($v);	
 		$db['searchCenter']	= $this->searchCenter($db['registros']);	
         	
@@ -90,11 +94,10 @@ class Search extends MY_Controller
     
 	
 	
-	function searchLeft()
+	function searchLeft($totalRows_registros)
 	{
 		$html = '';
-		//if ($totalRows_registros)
-		if (TRUE)	
+		if ($totalRows_registros > 0)
 		{
 			$html .= '<h1>FILTRAR RESULTADOS</h1>';
 			$html .= '<a href="#" class="button mobileFilterToggle">';
@@ -105,63 +108,79 @@ class Search extends MY_Controller
             $query =  $_GET['q'];
             $tipovehiculo =  $_GET['v'];
             
-            $servicios_results = $this->m_servicio->getServicio($query, $tipovehiculo);
-            $servicios_qty = count($servicios_results);
+            $servicios_results  = $this->m_servicio->getServicio($query, $tipovehiculo);
+            $servicios_qty      = count($servicios_results);
             
-            $marcas_results = $this->m_marca->getMarca($query, $tipovehiculo);
-            $marcas_qty = count($marcas_results);
+            $marcas_results     = $this->m_marca->getMarca($query, $tipovehiculo);
+            $marcas_qty         = count($marcas_results);
             
-            $localidades_results = $this->m_localidad->getLocalidad($query, $tipovehiculo);
-            $localidades_qty = count($localidades_results);
+            $localidades_results= $this->m_localidad->getLocalidad($query, $tipovehiculo);
+            $localidades_qty    = count($localidades_results);
             
             $urlData = array(
-            /*
                 'q'         => $_GET['q'],
-                'marca'     => $_GET['marca'],
-                'localidad' => $_GET['localidad'],
-                'servicio'  => $_GET['servicio'],
-            */
-                'q'         => '',
                 'marca'     => '',
                 'localidad' => '',
                 'servicio'  => '',
             );
-
+            
+            $url = base_url().'index.php/search?q='.$_GET['q'].'&v='.$tipovehiculo;
+            
+            if(isset($_GET['servicio']))
+            {
+                $urlData['servicio'] = $_GET['servicio'];                
+            }
+            
+            if(isset($_GET['marca']))
+            {
+                $urlData['marca'] = $_GET['marca'];
+            }
+            
+            if(isset($_GET['localidad']))
+            {
+                $urlData['localidad'] = $_GET['localidad'];
+            }
+            
 			$html .= '<div class="filtering">';
 
-			if ($urlData['servicio'] || $urlData['localidad'] || $urlData['marca'])
+			if ( $urlData['servicio'] != ''|| 
+			     $urlData['localidad'] != '' || 
+			     $urlData['marca'] != '' ) 
 			{
 				$html .= '<div class="activefilters">';
 				$html .= '<ul>';
 				$html .= '<li class="reset">';
-				$html .= '<a href="'.urlHelper($urlData, array('servicio' => null, 'localidad' => null, 'marca' => null)).'">Resetear todos los filtros</a>';
+				$html .= '<a href="'.$url.'">Resetear todos los filtros</a>';
 				$html .= '</li>';
 
-				if ($urlData['servicio'])
+				if ($urlData['servicio'] != '')
 				{
 					$html .= '<li class="activeFilter">';
-					$html .= $urlData['servicio'];
-					$html .= '<a href="'.urlHelper($urlData, array('servicio' => null)).'">';
+					$html .= $_GET['servicio'];
+					$html .= '<a href="'.$url.'">';
+                    $url .= '&servicio='.$_GET['servicio'];
 					$html .= '<i class="fa fa-times"></i>';
 					$html .= '</a>';
 					$html .= '</li>';
 				}
 
-				if ($urlData['localidad'])
+				if ($urlData['localidad'] != '')
 				{
 					$html .= '<li class="activeFilter">';
-					$html .= $urlData['localidad'];
-					$html .= '<a href="'.urlHelper($urlData, array('localidad' => null)).'">';
+					$html .= $_GET['localidad'];
+					$html .= '<a href="'.$url.'">';
+                    $url .= '&localidad='.$_GET['localidad'];
 					$html .= '<i class="fa fa-times"></i>';
 					$html .= '</a>';
 					$html .= '</li>';
 				}
 
-				if ($urlData['marca'])
+				if ($urlData['marca'] != '')
 				{
 					$html .= '<li class="activeFilter">';
-					$html .= $urlData['marca'];
-					$html .= '<a href="'.urlHelper($urlData, array('marca' => null)).'">';
+					$html .= $_GET['marca'];
+					$html .= '<a href="'.$url.'">';
+                    $url .= '&marca='.$_GET['marca'];
 					$html .= '<i class="fa fa-times"></i>';
 					$html .= '</a>';
 					$html .= '</li>';
@@ -184,7 +203,7 @@ class Search extends MY_Controller
                     foreach ($servicios_results as $_row) 
                     {
                         $html .= '<li>';
-                        $html .= '<a href="'.base_url().'servicio='.$_row->servicio.'">'.$_row->servicio.'</a> ('.$_row->count.')';
+                        $html .= '<a href="'.$url.'&servicio='.$_row->servicio.'">'.$_row->servicio.'</a> ('.$_row->count.')';
                         $html .= '</li>'; 
                     }
                 }
@@ -204,7 +223,7 @@ class Search extends MY_Controller
                     foreach ($marcas_results as $_row) 
                     {
                         $html .= '<li>';
-                        $html .= '<a href="'.base_url().'marca='.$_row->marca.'">'.$_row->marca.'</a> ('.$_row->count.')';
+                        $html .= '<a href="'.$url.'&marca='.$_row->marca.'">'.$_row->marca.'</a> ('.$_row->count.')';
                         $html .= '</li>'; 
                     }
                 }
@@ -223,7 +242,7 @@ class Search extends MY_Controller
                     foreach ($localidades_results as $_row) 
                     {
                         $html .= '<li>';
-                        $html .= '<a href="'.base_url().'marca='.$_row->locality.'">'.$_row->locality.'</a> ('.$_row->count.')';
+                        $html .= '<a href="'.$url.'&localidad='.$_row->locality.'">'.$_row->locality.'</a> ('.$_row->count.')';
                         $html .= '</li>'; 
                     }
                 }
@@ -232,7 +251,6 @@ class Search extends MY_Controller
 			}
 
 			$html .= '</div>';
-
 			$html .= '</div>';
 		}
 
@@ -251,7 +269,7 @@ class Search extends MY_Controller
         }else
         {
             $html .= '<input type="radio" name="v" value="auto" id="vAuto" ><label for="vAuto"> Auto</label>';
-        $html .= '<input type="radio" name="v" value="moto" id="vMoto" checked><label for="vMoto"> Moto</label>';
+            $html .= '<input type="radio" name="v" value="moto" id="vMoto" checked><label for="vMoto"> Moto</label>';
         }
 		
 		$html .= '<br>';
@@ -275,8 +293,7 @@ class Search extends MY_Controller
 			$totalRows_registros = 0;
 		}
         
-		//$html = '<div class="results-'.$totalRows_registros.' centro">';
-		$html = '<div class="results-15 centro">';
+		$html = '<div class="results-'.count($registros).' centro">';
 
 		if ($registros) 
 		{ 
@@ -287,8 +304,7 @@ class Search extends MY_Controller
 
 				$html .= '<div class="box-centro">';
 				$html .= '<h2>';
-				//$html .= '<a href="'.$url_relativa . "taller/" . url2seo($row_registros['nombre']) . "-" . $row_registros['idtaller'] .  "/".'">';
-				$html .= '<a href="'.base_url(). "taller/" . $_row->nombre. "-" . $_row->idtaller .  "/".'">';
+				$html .= '<a href="'.base_url(). "index.php/taller/search/".$_row->idtaller."/".'">';
                 $html .= $_row->nombre;
 				$html .= '<i class="fa fa-plus-square"></i>';
 				$html .= '</a>';
