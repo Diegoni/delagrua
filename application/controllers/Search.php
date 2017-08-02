@@ -19,6 +19,8 @@ class Search extends MY_Controller
         $this->load->model('m_localidad');
         $this->load->model('m_taller');
         
+        $this->load->helpers('url');
+        
     } 
     
     
@@ -37,13 +39,50 @@ class Search extends MY_Controller
 		$db['banners2'] = $this->m_banner->getBanner('busqueda medio');
 		$db['banners3'] = $this->m_banner->getBanner('busqueda abajo');
 
-		$db['totalRows_registros']	= FALSE;
-		$db['query']	= FALSE;
+		
+        $db['maxRows_registros'] = 10;
         
-        $db['registros'] = $this->m_taller->getTaller('', 'all');
+        if (isset($_GET['p'])) 
+        {
+            $limit = array(
+                'de'    => $_GET['p'] * $db['maxRows_registros'],
+                'hasta' => $db['maxRows_registros'],
+            );
+        }else
+        {
+            $limit = array(
+                'de'    => 0,
+                'hasta' => $db['maxRows_registros'],
+            );
+        }
+        
+        if (isset($_GET['q']))
+        {
+            $db['query'] = $_GET['q']; 
+        }else
+        {
+            $db['query'] = '';
+        }
+        
+        
+        if (isset($_GET['v']))
+        {
+            $v = $_GET['v']; 
+        }else
+        {
+            $v = 'auto';
+        }
+        
+        $querys = array(
+            'q' => $db['query'],
+            'v' => $v,
+        );
+        
+        $db['registros'] = $this->m_taller->getTaller($querys, 'all', $limit);
+        $db['totalRows_registros'] = count($this->m_taller->getTaller($querys, 'all'));
 				
 		$db['searchLeft']	= $this->searchLeft();	
-		$db['searchForm']	= $this->searchForm();	
+		$db['searchForm']	= $this->searchForm($v);	
 		$db['searchCenter']	= $this->searchCenter($db['registros']);	
         	
         $this->armarVista('search', $db);
@@ -201,12 +240,20 @@ class Search extends MY_Controller
 	}
 
 
-	function searchForm()
+	function searchForm($v = NULL)
 	{
 		$html = '<form method="get" action="'.base_url().'index.php/search" id="formbuscar" name="formbuscar" >';
 
-		$html .= '<input type="radio" name="v" value="auto" id="vAuto" checked><label for="vAuto"> Auto</label>';
-		$html .= '<input type="radio" name="v" value="moto" id="vMoto" '.isset($_GET['v']) && $_GET['v'] == "moto" ? "checked" : '' .'><label for="vMoto"> Moto</label>';
+        if($v == NULL || $v == 'auto')
+        {
+            $html .= '<input type="radio" name="v" value="auto" id="vAuto" checked><label for="vAuto"> Auto</label>';
+            $html .= '<input type="radio" name="v" value="moto" id="vMoto"><label for="vMoto"> Moto</label>';    
+        }else
+        {
+            $html .= '<input type="radio" name="v" value="auto" id="vAuto" ><label for="vAuto"> Auto</label>';
+        $html .= '<input type="radio" name="v" value="moto" id="vMoto" checked><label for="vMoto"> Moto</label>';
+        }
+		
 		$html .= '<br>';
 
 		//$html .= '<input id="search" name="q" type="text" placeholder="Buscá por nombre, tipo de taller o localidad" value="'.isset($query) && $query ? $query : "''" .'">';

@@ -31,11 +31,24 @@
                 </a>
             </li>
             <?php 
-            $maxRows_registros = 10;
-            $totalPages_registros = ceil(count($registros)/$maxRows_registros)-1;
+            $variables_get = '?';
+            foreach ($_GET as $key => $value) 
+            {
+                if($key != 'p')
+                {
+                    $variables_get .=  $key.'='.$value.'&';    
+                }                
+            }
+            
+            $pageNum_registros = 0;
+            if (isset($_GET['p'])) 
+            {
+                $pageNum_registros = $_GET['p'];
+            }
+            $totalPages_registros = ceil($totalRows_registros/$maxRows_registros)-1;
             for($i=0; $i <= $totalPages_registros; $i++){?>
             <li>
-                <a class="<?php //echo $i == $pageNum_registros ? 'active' : '' ?>" href="<?php //echo urlHelper($urlData, ['p' => $i ]); ?>">
+                <a class="<?php echo $i == $pageNum_registros ? 'active' : '' ?>" href="<?php echo base_url().'index.php/search/'.$variables_get.'p='.$i;?>">
                     <?php echo $i+1?>
                 </a>
             </li>

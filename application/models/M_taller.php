@@ -17,7 +17,7 @@ class m_taller extends MY_Model
 	}
     
     
-    function getTaller($idtaller, $consulta)
+    function getTaller($idtaller, $consulta, $limit = NULL)
     {
         if($consulta == 'servicios')
         {
@@ -44,16 +44,29 @@ class m_taller extends MY_Model
                 SUM(servicio) AS serviciovalor 
             FROM 
                 dlg_calificacion 
-            WHERE 
+            WHERE   
                 publicar = '1' AND idtaller = '$idtaller'";            
         }else if('all')
         {
-            $sql = $this->getSearch('', 'auto');   
-            $sql .= " 
-            GROUP BY 
-                idtaller 
-            ORDER BY 
-                sum(relevance) DESC";             
+            $sql = $this->getSearch($idtaller['q'], $idtaller['v']);
+            
+            if($limit != NULL)
+            {
+                $sql .= " 
+                GROUP BY 
+                    idtaller 
+                ORDER BY 
+                    sum(relevance) DESC
+                LIMIT $limit[de], $limit[hasta]"; 
+            }else
+            {
+                $sql .= " 
+                GROUP BY 
+                    idtaller 
+                ORDER BY 
+                    sum(relevance) DESC";
+            }    
+            
         }
         
         return $this->getQuery($sql);            
