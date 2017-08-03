@@ -193,26 +193,36 @@ foreach ($registros as $row_registro)
 {
 ?>
 
-  <div class="cont960">
-    <div class="resultados-busquedas"><!--rb-->
-
-      <div class="uno"><a class="fa <?php echo ($row_registro->tipovehiculo == 'auto' ? 'fa-car' : 'fa-motorcycle') ?>"></a><?php echo $row_registro->nombre; ?>
-        <span class="corre">Recomendalo! <a href="http://www.facebook.com/sharer.php?s=100&p[url]=<?php echo urlencode('http://www.delagrua.com/taller_info.php?id=' . $row_registro->idtaller); ?>&p[title]=<?php echo $row_registro->nombre; ?>&p[summary]=De la grúa | Guía colectiva de talleres para autos y motos&p[images][0]=http://www.delagrua.com/img/logos/dlg_fc.png" target="_blank" class="fa fa-facebook-square"></a> <a href="https://plus.google.com/share?url=www.delagrua.com/taller_info.php?id=<?php echo $row_registro->idtaller; ?>" class="fa fa-google-plus-square" onclick="javascript:window.open(this.href,
-          '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"></a> <a href="http://twitter.com/home?status=<?php echo urlencode($row_registro->nombre . " http://www.delagrua.com/taller_info.php?id=" . $row_registro->idtaller . " en DE LA GRUA | Guía colectiva de talleres para autos y motos");?>"target="_blank" class="fa fa-twitter-square"></a>
-        </span>
-      </div>
-      <div class="izquierda-grande"><!--izq-grande-->
-       <div class="box"><!--box-->
-         <div class="izq"><!--izq-->
-          <div class="box-iconos"><i class="fa fa-fw fa-file-text-o"></i>
-            <p>Código de área:<span class="gris">
-              <?php echo $row_registro->telefonocodarea; ?></span>&nbsp;Teléfono:<span class="gris"> <?php echo $row_registro->telefono; ?></span><br>
-              <!-- Mail: <span class="gris"><a href="mailto:<?php echo $row_registro['email']; ?>" target="_blank" class="link-gris"><?php echo $row_registro['email']; ?></a></span><br> -->
-              <?php if ($row_registro->web): ?>
-                Web: <span class="gris"><a href="http://<?php echo $row_registro->web; ?>" target="_blank" class="link-naranja"><?php echo $row_registro->web; ?></a></span>
-              <?php endif ?>
-            </p>
-          </div>
+    <div class="cont960">
+        <div class="resultados-busquedas"><!--rb-->
+            <div class="uno">
+                <a class="fa <?php echo ($row_registro->tipovehiculo == 'auto' ? 'fa-car' : 'fa-motorcycle') ?>">
+                    
+                </a>
+                <?php echo $row_registro->nombre; ?>
+                <span class="corre">Recomendalo! <a href="http://www.facebook.com/sharer.php?s=100&p[url]=<?php echo urlencode('http://www.delagrua.com/taller_info.php?id=' . $row_registro->idtaller); ?>&p[title]=<?php echo $row_registro->nombre; ?>&p[summary]=De la grúa | Guía colectiva de talleres para autos y motos&p[images][0]=http://www.delagrua.com/img/logos/dlg_fc.png" target="_blank" class="fa fa-facebook-square"></a> <a href="https://plus.google.com/share?url=www.delagrua.com/taller_info.php?id=<?php echo $row_registro->idtaller; ?>" class="fa fa-google-plus-square" onclick="javascript:window.open(this.href,
+                    '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"></a> <a href="http://twitter.com/home?status=<?php echo urlencode($row_registro->nombre . " http://www.delagrua.com/taller_info.php?id=" . $row_registro->idtaller . " en DE LA GRUA | Guía colectiva de talleres para autos y motos");?>"target="_blank" class="fa fa-twitter-square"></a>
+                </span>
+            </div>
+            
+            <div class="izquierda-grande">
+                <div class="box">
+                    <div class="izq">
+                        <div class="box-iconos">
+                            <i class="fa fa-fw fa-file-text-o"></i>
+                            <p>Código de área:
+                                <span class="gris">
+                                    <?php echo $row_registro->telefonocodarea; ?>
+                                </span>&nbsp;Teléfono:
+                                <span class="gris"> 
+                                    <?php echo $row_registro->telefono; ?>
+                                </span><br>
+                                <!-- Mail: <span class="gris"><a href="mailto:<?php echo $row_registro['email']; ?>" target="_blank" class="link-gris"><?php echo $row_registro['email']; ?></a></span><br> -->
+                                <?php if ($row_registro->web): ?>
+                                    Web: <span class="gris"><a href="http://<?php echo $row_registro->web; ?>" target="_blank" class="link-naranja"><?php echo $row_registro->web; ?></a></span>
+                                <?php endif ?>
+                            </p>
+                        </div>
 
           <div class="box-iconos chico"><i class="fa fa-fw fa-wrench"></i>
             <p>
@@ -458,15 +468,12 @@ foreach ($registros as $row_registro)
 
 </div><!--rb-->
 
-<?php
-include_once 'partials/footer.php'; 
-?>
 
 <script>
 
   // Get coordinates from db
-  var lat = <?php echo $row_registro['lat'] ?>;
-  var lng = <?php echo $row_registro['lng'] ?>;
+  var lat = <?php echo $row_registro->lat ?>;
+  var lng = <?php echo $row_registro->lng ?>;
 
   function initialize() {
     var mapOptions = {
