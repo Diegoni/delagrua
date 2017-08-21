@@ -247,7 +247,7 @@
 		?>
 		<div class="recientes">
 			<h2>
-				<a href="<?php echo base_url() . "taller/" . strtolower($value) . "-" . $key . "/"; ?>" >
+				<a href="<?php echo base_url() . "index.php/taller/search/". $key . "/"; ?>" >
 					<?php echo $value; ?>
 					<i class="fa fa-plus-square"></i>
 				</a>

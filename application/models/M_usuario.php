@@ -15,5 +15,24 @@ class m_usuario extends MY_Model
 			$relation		= $this->_relation
 		);
 	}
+	
+	
+	function getUsuario($email, $clave)
+	{
+		$sql = "
+		SELECT 
+			email, 
+			clave, 
+			nick,
+			fblogin
+		FROM 
+			dlg_usuario 
+		WHERE 
+			activo = 1 AND 
+			email = '$email' AND 
+			clave = '$clave'";
+			
+		return $this->getQuery($sql);
+	}
 } 
 ?>

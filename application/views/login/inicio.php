@@ -8,41 +8,6 @@ $loginFormAction = $_SERVER['PHP_SELF'];
 if (isset($_GET['accesscheck'])) {
   $_SESSION['PrevUrl'] = $_GET['accesscheck'];
 }
-
-if (isset($_POST['email'])) {
-  $ifilter = new InputFilter();
-  $_POST = $ifilter->process($_POST);
-
-  $loginUsername=$_POST['email'];
-  $password=md5($_POST['clave']);
-  $MM_fldUserAuthorization = "";
-  $MM_redirectLoginSuccess = "login_ok.php";
-  $MM_redirectLoginFailed = "login_error.php";
-  $MM_redirecttoReferrer = false;
-  mysql_select_db($database_config, $config);
-
-  $LoginRS__query=sprintf("SELECT email, clave FROM dlg_usuario WHERE activo = 1 AND email=%s AND clave=%s",
-    GetSQLValueString($loginUsername, "text"), GetSQLValueString($password, "text"));
-
-  $LoginRS = mysql_query($LoginRS__query, $config) or die(mysql_error());
-  $loginFoundUser = mysql_num_rows($LoginRS);
-  if ($loginFoundUser) {
-     $loginStrGroup = "";
-
-	if (PHP_VERSION >= 5.1) {session_regenerate_id(true);} else {session_regenerate_id();}
-    //declare two session variables and assign them
-    $_SESSION['MM_Username'] = $loginUsername;
-    $_SESSION['MM_UserGroup'] = $loginStrGroup;
-
-    if (isset($_SESSION['PrevUrl']) && false) {
-      $MM_redirectLoginSuccess = $_SESSION['PrevUrl'];
-    }
-    header("Location: " . $MM_redirectLoginSuccess );
-  }
-  else {
-    header("Location: ". $MM_redirectLoginFailed );
-  }
-}
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -171,7 +136,7 @@ function FBLogin(){
        </div>
 		</form>
        <div class="box-pop">
-         <h2>Creá una cuenta en <a href="crear_cuenta.php">delagrua.com</a></h2>
+         <h2>Creá una cuenta en <a href="<?php echo base_url().'index.php/login/crear_cuenta/'?>">delagrua.com</a></h2>
          <h2><a href="terminos_condiciones.php">Términos y Condiciones</a></h2>
        </div>
 </div>

@@ -28,8 +28,8 @@ $_config['libraries'] = base_url().'librerias/';
 	?>
   	</title>
 
-  	<link rel="icon" href="<?php echo base_url();?>favicon.ico" type="image/vnd.microsoft.icon" />
-  	<link rel="shortcut icon" href="<?php echo base_url();?>favicon.ico" /><meta name="description" content="">
+  	<link rel="icon" href="<?php echo base_url();?>assets/img/favicon.ico" type="image/vnd.microsoft.icon" />
+  	<link rel="shortcut icon" href="<?php echo base_url();?>assets/img/favicon.ico" /><meta name="description" content="">
  
 	<?php
   		echo setCss('css/normalize.min.css');
@@ -96,64 +96,82 @@ function actualizar2()
 
 
 <div class="wrapper"><!--wrapper-->
+	<div class="cabecera"><!--header-->
+    	<div class="cont"><!--cont-->
+      		<div class="cont960">
+       			<div class="login">
+         			<?php 
+         			if (!isset($_SESSION['MM_Username'])) 
+         			{
+         			?>
+         				<p class="user">&nbsp;</p>
+         				<p class="log">
+         					<a class="fancybox fancybox.iframe" href="<?php echo base_url();?>index.php/login/">Inicia sesión</a> 
+         					<a class="fancybox fancybox.iframe fa fa-power-off" href="<?php echo base_url();?>login.php"></a></p>
+         			<?php 
+					} else 
+					{ ?>
+         				<p class="user">
+          					HOLA <?php echo $_SESSION['nick']; ?>
+						</p>
+        				<?php 
+        				//if(isset($logoutAction))
+        				if (isset($_SESSION['MM_Username'])) 
+        				{ ?>
+        					<p class="log">
+        						<a href="<?php echo base_url().'index.php/login/logout/' ?>">Cerra sesión</a> 
+        						<a class="fancybox fancybox.iframe fa fa-power-off" href="<?php echo base_url().'index.php/login/logout/' ?>"></a>
+        					
+        				<?php 
+						}
+         				
+         				if($_SESSION['fblogin'] == 0)
+         				{?>
+         				<br>
+         				<a class="fancybox fancybox.iframe" href="<?php echo base_url();?>index.php/login/login_cambia_clave/">Cambia tu clave</a> 
+         				<a class="fancybox fancybox.iframe fa fa-wrench" href="<?php echo base_url();?>index.php/login/login_cambia_clave/.php"></a>
+         				</p>
+        				 <?php 
+						} 
+					} ?>
+				</div>
+				
+				<div class="logo">
+					<a href="<?php echo base_url();?>">
+						<img src="<?php echo base_url();?>assets/img/logos/delagrua.png" title="DE LA GRÚA">
+					</a>
+         			<p>Guía colectiva de talleres para autos y motos</p>
+       			</div>
 
-  <div class="cabecera"><!--header-->
-    <div class="cont"><!--cont-->
-      <div class="cont960">
-       <div class="login">
-         <?php //if (!isset($_SESSION['MM_Username'])) {
-         	if (TRUE) { 
-         	?>
-         <p class="user">&nbsp;
-         </p>
-         <p class="log"><a class="fancybox fancybox.iframe" href="<?php echo base_url();?>index.php/login/">Inicia sesión</a> <a class="fancybox fancybox.iframe fa fa-power-off" href="<?php echo base_url();?>login.php"></a></p>
-         <?php } else { ?>
-         <p class="user">
-          HOLA <?php echo $row_usuario_sesion['nick']; ?>
-        </p>
-        <?php if(isset($logoutAction)){ ?>
-        <p class="log"><a href="<?php echo $logoutAction ?>">Cerra sesión</a> <a class="fancybox fancybox.iframe fa fa-power-off" href="<?php echo $logoutAction ?>"></a>
-        	
-        <?php } ?>
-         <?php if($row_usuario_sesion['fblogin'] == 0){?>
-         <br>
-         <a class="fancybox fancybox.iframe" href="<?php echo base_url();?>login_cambia_clave.php">Cambia tu clave</a> <a class="fancybox fancybox.iframe fa fa-wrench" href="<?php echo base_url();?>login_cambia_clave.php"></a></p>
-         <?php } ?>
-         <?php } ?>
-       </div>
+       			<div class="buscanos">
+       				CORRE LA VOZ! <br> 
+       				<a href="https://www.facebook.com/guiadelagrua" target="_blank" class="fa fa-facebook-square"></a> 
+       				<a href="https://plus.google.com/103267201251041877547/about" target="_blank"  class="fa fa-google-plus-square"></a>
+       			</div>
+			</div>
+		</div><!--cont-->
+	</div><!--header-->
 
-       <div class="logo"><a href="<?php echo base_url();?>"><img src="<?php echo base_url();?>assets/img/logos/delagrua.png" title="DE LA GRÚA"></a>
-         <p>Guía colectiva de talleres para autos y motos</p>
-       </div>
-
-       <div class="buscanos">CORRE LA VOZ! <br> <a href="https://www.facebook.com/guiadelagrua" target="_blank" class="fa fa-facebook-square"></a> <a href="https://plus.google.com/103267201251041877547/about" target="_blank"  class="fa fa-google-plus-square"></a></div>
-     </div>
-   </div><!--cont-->
- </div><!--header-->
-
- <div class="contenido"><!--contenido-->
-  <div class="cont"><!--cont-->
-    <?php
-    if($_SERVER['PHP_SELF'] == '/delagrua/index.php' || $_SERVER['PHP_SELF'] == '/delagrua/faq.php')
-    {
-        echo '<div class="nav-barra sombra-XX">';    
-    }else
-    {
-        echo '<div class="nav-barra sombra">';
-    }
-    ?>    
-     <ul>
-      <li><a href="<?php echo base_url();?>#busca_taller">BUSCA UN TALLER</a></li>
-      <?php //if (!isset($_SESSION['MM_Username'])) { 
-      	if (TRUE) { 
-      	?>
-      <li><a class="fancybox fancybox.iframe" href="<?php echo base_url();?>login.php">CALIFICA UN TALLER</a></li>
-      <?php } else { ?>
-      <li><a href="<?php echo base_url();?>#busca_taller">CALIFICA UN TALLER</a></li>
-      <?php } ?>
-      <li><a href="<?php echo base_url();?>#agrega_taller">AGREGA TU TALLER</a></li>
-    </ul>
-  </div><!--barra-->
-
-
-
+	<div class="contenido"><!--contenido-->
+		<div class="cont"><!--cont-->
+			<?php
+			if($_SERVER['PHP_SELF'] == '/delagrua/index.php' || $_SERVER['PHP_SELF'] == '/delagrua/faq.php')
+    		{
+        		echo '<div class="nav-barra sombra-XX">';    
+    		}else
+    		{
+        		echo '<div class="nav-barra sombra">';
+    		}
+    		?>    
+			<ul>
+	      		<li><a href="<?php echo base_url();?>#busca_taller">BUSCA UN TALLER</a></li>
+	      		<?php //if (!isset($_SESSION['MM_Username'])) { 
+	      		if (TRUE) { 
+	      		?>
+	      		<li><a class="fancybox fancybox.iframe" href="<?php echo base_url();?>index.php/login/">CALIFICA UN TALLER</a></li>
+	      		<?php } else { ?>
+	      		<li><a href="<?php echo base_url();?>#busca_taller">CALIFICA UN TALLER</a></li>
+	      		<?php } ?>
+	      		<li><a href="<?php echo base_url();?>#agrega_taller">AGREGA TU TALLER</a></li>
+	    	</ul>
+		</div><!--barra-->

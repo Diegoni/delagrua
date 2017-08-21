@@ -64,7 +64,7 @@ class Contactanos extends MY_Controller
 				$email_contacto = $_POST['mail_telefono'];
 			}else if(!isset($email_contacto))
 			{
-				$email_contacto = 'diego_nieto_1@hotmail.com';
+				$email_contacto = 'delagrua1@gmail.com';
 			}
 			
 			if(isset($_POST['consulta']))
