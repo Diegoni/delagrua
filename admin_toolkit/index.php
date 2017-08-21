@@ -1,4 +1,6 @@
-<?php require_once('../Connections/config.php'); ?>
+<?php 
+require_once('Connections/config.php'); 
+?>
 <?php require_once('class.inputfilter.php'); ?>
 <?php
 if (!function_exists("GetSQLValueString")) {
@@ -57,9 +59,12 @@ if (isset($_POST['email'])) {
   	
   $LoginRS__query=sprintf("SELECT email, clave, idgrupo FROM dlg_usuario WHERE email=%s AND clave=%s",
   GetSQLValueString($loginUsername, "text"), GetSQLValueString($password, "text")); 
+  
    
   $LoginRS = mysql_query($LoginRS__query, $config) or die(mysql_error());
   $loginFoundUser = mysql_num_rows($LoginRS);
+  
+ 
   if ($loginFoundUser) {
     
     $loginStrGroup  = mysql_result($LoginRS,0,'idgrupo');

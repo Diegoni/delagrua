@@ -24,5 +24,22 @@ class m_tallerservicio extends MY_Model
 			$relation		= $this->_relation
 		);
 	}
+	
+	function getServicios($id)
+	{
+		$sql = "
+		SELECT 
+			dlg_servicio.servicio 
+		FROM 
+			dlg_tallerservicio 
+		LEFT JOIN 
+			dlg_servicio ON dlg_tallerservicio.idservicio = dlg_servicio.idservicio 
+		WHERE 
+			dlg_tallerservicio.idtaller = '$id' 
+		ORDER BY 
+			dlg_servicio.servicio ASC";
+			
+		return $this->getQuery($sql);
+	}
 } 
 ?>

@@ -42,54 +42,62 @@ class Contactanos extends MY_Controller
 		
 		if ((isset($_POST["MM_send"])) && ($_POST["MM_send"] == "formcontacto")) 
 		{
-			$paragraphs  = 'Consulta desde el sitio';
-		    $paragraphs .= 'Nombre: ' .  $_POST['nombre'] ;
-			if(isset($_POST['mailotelefono']))
+			// Carga email desde y variables
+			if(!isset($email_admin_taller))
 			{
-				$paragraphs .= 'Mail o teléfono: ' .  $_POST['mailotelefono'] ;
+				$email_admin_taller = 'no-reply@c0730102.ferozo.com';
 			}
+			
+			if(isset($_POST['taller']))
+			{
+				$taller = $_POST['taller'];
+			}else{
+				$taller = '';
+			}
+			
+			// Contenido del correo
+			$paragraphs  = "Consulta desde el sitio \n";
+		    $paragraphs .= 'Nombre: ' .  $_POST['nombre']."\n" ;
+			if (filter_var($_POST['mail_telefono'], FILTER_VALIDATE_EMAIL)) 
+			{
+				$paragraphs .= 'Mail o teléfono: ' .  $_POST['mailotelefono']."\n" ;
+				$email_contacto = $_POST['mail_telefono'];
+			}else if(!isset($email_contacto))
+			{
+				$email_contacto = 'diego_nieto_1@hotmail.com';
+			}
+			
 			if(isset($_POST['consulta']))
 			{
 				$consulta = $_POST['consulta'];
-				$paragraphs .= 'Consulta: ' .  $consulta ;
+				$paragraphs .= 'Consulta: ' .  $consulta ."\n" ;
 			}else
 			{
 				$consulta = '';	
 			}
+			// Envio del correo
 			$this->load->library('email');
-			
-			if(!isset($email_admin_taller))
-			{
-				$email_admin_taller = 'diego_nieto_1@hotmail.com';
-			}
 			$this->email->from($email_admin_taller, 'DE LA GRUA');
-			if(!isset($email_contacto))
-			{
-				$email_contacto = 'test@test.com';
-			}
 			$this->email->to($email_contacto);
-			
-			
 			$this->email->subject(utf8_decode("DE LA GRUA - Contactanos"));
 			$this->email->message($paragraphs);
-			
-			$registro = array(
-			    'nombre'        => $_POST['nombre'],
-			    'mail_telefono' => $_POST['mail_telefono'],
-			    'taller'        => $_POST['taller'],
-			    'consulta'      => $consulta,
-			    'id_estado'     => 1,
-			);
-			$this->m_contactos->insert($registro);
-
-	
 			if ($this->email->send())
 			{
-				$db['mensaje'] = $_POST['nombre'] . '<br>Gracias por contactarnos. ';
+				$db['mensaje'] = $_POST['nombre'] . '<br> Gracias por contactarnos. ';
 			}else 
 			{
 				$db['mensaje'] = 'No se puddo enviar tu consulta, por favor, intentalo más tarde.';
 			}
+			
+			// Guardamos registro en base de datos
+			$registro = array(
+			    'nombre'        => $_POST['nombre'],
+			    'mail_telefono' => $email_contacto,
+			    'taller'        => $taller,
+			    'consulta'      => $consulta,
+			    'id_estado'     => 1,
+			);
+			$this->m_contactos->insert($registro);
 		}
 
         $this->armarVista('contactanos', $db);

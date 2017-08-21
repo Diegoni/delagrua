@@ -1,4 +1,4 @@
-<?php require_once('../Connections/config.php'); ?>
+<?php require_once('Connections/config.php'); ?>
 <?php
 //initialize the session
 if (!isset($_SESSION)) {

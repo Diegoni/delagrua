@@ -1,4 +1,4 @@
-<?php require_once('../Connections/config.php'); ?>
+<?php require_once('Connections/config.php'); ?>
 <?php require_once('session.php'); ?>
 <?php require_once('funciones.php'); ?>
 <?php

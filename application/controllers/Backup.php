@@ -39,7 +39,7 @@ class Backup extends MY_Controller
 				'filename'    => date("Ymd-H").'-backup.sql'
 			);
 	
-	        $backup =& $this->dbutil->backup($prefs); 
+	        $backup = $this->dbutil->backup($prefs); 
 	        $db_name = date("Ymd_His").'-backup.zip';
 	
 	        $this->load->helper('download');

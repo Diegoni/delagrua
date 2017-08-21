@@ -20,18 +20,18 @@ if ($server == 'www.delagrua.loc' || $server == 'delagrua.loc')
 {
     error_reporting(0);
     $hostname_config = "localhost";
-    $database_config = "delagrua";
+    $database_config = "c0730102_dlg";
     //$username_config = "jasdju8712jj";
     //$password_config = "k1209djjauuuua";
-    $username_config = "root";
-    $password_config = "";
+    $username_config = "c0730102_dlg";
+    $password_config = "zo86MErona";
 
     $email_admin_cuentas = 'delagrua1@gmail.com';
     $email_admin_taller = 'delagrua1@gmail.com';
     $email_contacto = 'delagrua1@gmail.com';
 
     //$url_relativa = 'http://www.delagrua.com/';
-    $url_relativa = 'http://localhost/delagrua/';
+    $url_relativa = 'http://c0730102.ferozo.com';
 }
 
 define('DB_HOST',       $hostname_config);

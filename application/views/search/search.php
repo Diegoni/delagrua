@@ -19,6 +19,7 @@
     <div class="paginacion">
         <ul>
             <li class="ver">VER MAS RESULTADOS:</li>
+            <!--
             <li>
                 <a href="<?php //echo // urlHelper($urlData); ?>">
                     ‹‹
@@ -30,6 +31,7 @@
                     ‹
                 </a>
             </li>
+            -->
             <?php 
             $variables_get = '?';
             foreach ($_GET as $key => $value) 

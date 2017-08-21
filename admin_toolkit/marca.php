@@ -1,4 +1,4 @@
-<?php require_once('../Connections/config.php'); ?>
+<?php require_once('Connections/config.php'); ?>
 <?php require_once('session.php'); ?>
 <?php 
 $currentPage = $_SERVER["PHP_SELF"];

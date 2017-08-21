@@ -18,6 +18,7 @@ INDICE
 - validarCUIT			valida cuit
 - randomString 		    Devuelve cadenas aleatorias
 - digitoVerificador     Devuelve el digito verificador  
+ * 
 
   -------------------------------------------------------------------------------*/
   
@@ -287,4 +288,32 @@ function getUltimoDiaMes($date){
   $mes  = date('m', strtotime($date));
   $anio = date('Y', strtotime($date));  
   return date("d",(mktime(0,0,0,$mes+1,1,$anio)-1));
+}
+
+
+function getEstrellas($estrellas)
+{
+	$return = '';
+	switch ($estrellas) {
+		case 0:
+		$return = "<img src=\"" . base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" . base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" . base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" . base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" . base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
+		break;
+		case 1:
+		$return = "<img src=\"" . base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" . base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" . base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" . base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" . base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
+		break;
+		case 2:
+		$return = "<img src=\"" . base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" . base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" . base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" . base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" . base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
+		break;
+		case 3:
+		$return = "<img src=\"" . base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" . base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" . base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" . base_url() . "assets/img/iconos/estrellita-gris.png\"/><img src=\"" . base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
+		break;
+		case 4:
+		$return = "<img src=\"" . base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" . base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" . base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" . base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" . base_url() . "assets/img/iconos/estrellita-gris.png\"/>";
+		break;
+		case 5:
+		$return = "<img src=\"" . base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" . base_url() . "assets/img/iconos/estrellita-amarilla.png\"><img src=\"" . base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" . base_url() . "assets/img/iconos/estrellita-amarilla.png\"/><img src=\"" . base_url() . "assets/img/iconos/estrellita-amarilla.png\"/>";
+		break;
+	}
+
+	return $return;
 }
