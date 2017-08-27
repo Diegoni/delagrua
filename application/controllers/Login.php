@@ -194,22 +194,95 @@ class Login extends MY_Controller
 			        
 			        $m_usuario = new m_usuario();
 			        $m_usuario->insert($sql_registro); 
+					$db = array();
 			        
-			        $this->load->view($this->_subject.'/crear_cuenta_ok');
+					$this->armarVista('crear_cuenta_ok', $db);
+			        
 				} else 
 				{
 					$db['error'] = "Tu cuenta no se pudo agregar porque ya existe una cuenta con ese nick.";
-					$this->load->view($this->_subject.'/crear_cuenta', $db);
+					$this->armarVista('crear_cuenta', $db);
 				}
 			} else {
 				$db['error'] = "Tu cuenta no se pudo agregar porque ya existe una cuenta con ese email.";
-				$this->load->view($this->_subject.'/crear_cuenta', $db);
+				$this->armarVista('crear_cuenta', $db);
 			}
 		}else
 		{
 			$db['error'] = FALSE;
-			$this->load->view($this->_subject.'/crear_cuenta', $db);
+			$this->armarVista('crear_cuenta', $db);
 		}
+	}
+
+
+	function login_olvide_contrasena()
+	{
+		$db['mensaje'] = '';
+		if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formguardar")) 
+		{
+			$colname_registro = '-1';
+			
+			if (isset($_POST['email'])) {
+				$colname_registro = $_POST['email'];
+			}
+			
+			$registros = $this->model->getRegistros($colname_registro, 'email');
+			
+
+			if($registros)
+			{
+				foreach($registros as $row) 
+				{
+					if($row->fblogin != 1)
+					{
+						//Crea una clave aleatoria
+						$caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+						$numerodeletras=10;
+						$cadena = "";
+						
+						for($i=0;$i<$numerodeletras;$i++)
+						{
+							$cadena .= substr($caracteres,rand(0,strlen($caracteres)),1);
+						}
+						
+						$update = array(
+							'clave'	=> md5($cadena),
+						);
+						
+						$where = array(
+							'email'	=> $_POST['email'],
+						);
+						
+						$this->model->update($update, $where);
+						
+						$paragraphs = '';
+						$paragraphs .= "Hola " . $row_registro['nick'	] . ':';
+						$paragraphs .= 'Tu nueva contrase&ntilde;a para acceder es: ' . $cadena;
+						$paragraphs .= 'Atentamente<br>El equipo de Delagrua';
+			
+						// Envio del correo
+						$this->load->library('email');
+						$this->email->from($email_admin_cuentas, 'DE LA GRUA');
+						$this->email->to($row->email);
+						$this->email->subject(utf8_decode("DE LA GRUA - Olvidé mi contraseña"));
+						$this->email->message($paragraphs);
+						if ($this->email->send())
+						{
+							$db['mensaje'] = 'Recibirás un email tu cuenta de e-mail, con tu nueva contraseña';
+						}else 
+						{
+							$db['mensaje'] = 'No se puedo enviar a tu cuenta de e-mail un email con tu nueva contraseña';
+						}
+					} else {
+						$db['mensaje'] = 'La cuenta de e-mail ingresada inicia sesión con facebook.';
+					}
+				}
+			} else {
+				$db['mensaje'] = 'La cuenta de e-mail ingresada no existe.';
+			}	
+		}
+
+		$this->armarVista('login_olvide_contrasena', $db);
 	}
 	
 }

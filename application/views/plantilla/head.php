@@ -38,6 +38,12 @@ $_config['libraries'] = base_url().'librerias/';
 		echo setCss('css/fancyapps/jquery.fancybox.css');
 		echo setCss('fonts/fuentes.css');
 		echo setCss('font-awesome/css/font-awesome.min.css');
+				
+		if($_SERVER['SCRIPT_URL'] != '/index.php/terminos/')
+		{
+			echo setCss('bootstrap/css/bootstrap.css');
+		}
+		
   	?>
 
   	<script>
@@ -54,6 +60,12 @@ $_config['libraries'] = base_url().'librerias/';
 		echo setJs('js/vendor/jquery.geocomplete.min.js');
 		echo setJs('js/fancyapps/jquery.fancybox.js');
 		echo setJs('js/main.js');
+		
+		if($_SERVER['SCRIPT_URL'] != '/index.php/terminos/')
+		{
+			echo setJs('bootstrap/js/bootstrap.js'); 
+		}
+		
   	?>
 
 	<script type="text/javascript">
@@ -106,8 +118,9 @@ function actualizar2()
          			?>
          				<p class="user">&nbsp;</p>
          				<p class="log">
-         					<a class="fancybox fancybox.iframe" href="<?php echo base_url();?>index.php/login/">Inicia sesión</a> 
-         					<a class="fancybox fancybox.iframe fa fa-power-off" href="<?php echo base_url();?>login.php"></a></p>
+         					<a class="fancybox fancybox.iframe" data-toggle="modal" data-target="#myModal">Inicia sesión</a> 
+         					<a class="fancybox fancybox.iframe fa fa-power-off" href="<?php echo base_url();?>login.php"></a>
+         				</p>
          			<?php 
 					} else 
 					{ ?>
@@ -128,7 +141,7 @@ function actualizar2()
          				if($_SESSION['fblogin'] == 0)
          				{?>
          				<br>
-         				<a class="fancybox fancybox.iframe" href="<?php echo base_url();?>index.php/login/login_cambia_clave/">Cambia tu clave</a> 
+         				<a class="fancybox fancybox.iframe" data-toggle="modal"  data-target="#cambiarClaveModal">Cambia tu clave</a> 
          				<a class="fancybox fancybox.iframe fa fa-wrench" href="<?php echo base_url();?>index.php/login/login_cambia_clave/.php"></a>
          				</p>
         				 <?php 
@@ -175,3 +188,262 @@ function actualizar2()
 	      		<li><a href="<?php echo base_url();?>#agrega_taller">AGREGA TU TALLER</a></li>
 	    	</ul>
 		</div><!--barra-->
+
+
+<?php
+// *** Validate request to login to this site.
+if (!isset($_SESSION)) {
+  session_start();
+}
+
+$loginFormAction = $_SERVER['PHP_SELF'];
+if (isset($_GET['accesscheck'])) {
+  $_SESSION['PrevUrl'] = $_GET['accesscheck'];
+}
+?>
+
+
+
+<script type="text/javascript">
+function MM_callJS(jsStr) { //v2.0
+  return eval(jsStr)
+}
+function MM_goToURL() { //v3.0
+  var i, args=MM_goToURL.arguments; document.MM_returnValue = false;
+  for (i=0; i<(args.length-1); i+=2) eval(args[i]+".location='"+args[i+1]+"'");
+}
+function MM_validateForm() { //v4.0
+  if (document.getElementById){
+    var i,p,q,nm,test,num,min,max,errors='',args=MM_validateForm.arguments;
+    for (i=0; i<(args.length-2); i+=3) { test=args[i+2]; val=document.getElementById(args[i]);
+      if (val) { nm=val.name; if ((val=val.value)!="") {
+        if (test.indexOf('isEmail')!=-1) { p=val.indexOf('@');
+          if (p<1 || p==(val.length-1)) errors+='- '+nm+' debe contener un email correcto.\n';
+        } else if (test!='R') { num = parseFloat(val);
+          if (isNaN(val)) errors+='- '+nm+' must contain a number.\n';
+          if (test.indexOf('inRange') != -1) { p=test.indexOf(':');
+            min=test.substring(8,p); max=test.substring(p+1);
+            if (num<min || max<num) errors+='- '+nm+' must contain a number between '+min+' and '+max+'.\n';
+      } } } else if (test.charAt(0) == 'R') errors += '- '+nm+' es requerido.\n'; }
+    } if (errors) alert('Error:\n'+errors);
+    document.MM_returnValue = (errors == '');
+} }
+</script>
+</head>
+
+<!-- facebook login -->
+<script type="text/javascript">
+window.fbAsyncInit = function() {
+	FB.init({
+	appId      : '1444163319141827', // replace your app id here
+	//channelUrl : '//WWW.DELAGRUA.COM/channel.html',
+	status     : true,
+	cookie     : true,
+	xfbml      : true,
+    oauth	   : true,
+	});
+};
+(function(d){
+	var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+	if (d.getElementById(id)) {return;}
+	js = d.createElement('script'); js.id = id; js.async = true;
+	js.src = "//connect.facebook.net/es_LA/all.js";
+	ref.parentNode.insertBefore(js, ref);
+}(document));
+
+function FBLogin(){
+	FB.login(function(response){
+		if(response.authResponse){
+			window.location.href = "fb_login.php?action=fblogin";
+		}
+	}, {scope: 'public_profile,email,user_birthday'});
+}
+</script>
+<!-- fin facebook login -->
+
+<body>
+<!--[if lt IE 7]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<?php
+if($_SERVER['SCRIPT_URL'] != '/index.php/terminos/')
+{
+?>
+<div id="myModal" class="modal fade" role="dialog">
+  	<div class="modal-dialog" style="width: 400px;">
+
+    <!-- Modal content-->
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Inicio Sessión</h4>
+		</div>
+		<div class="modal-body">
+			<div class="wrapper"><!--wrapper-->
+				<div class="cont-pop" style="width: 100%;"><!--pop-->
+	     			<div class="sup">
+	          			<img src="<?php echo base_url();?>/admin_toolkit/img/iconos/auto-negro-up.png">
+	     			</div>
+	
+	     			<div class="cen">
+		       			<div class="box-pop">
+		          			<h1>
+		          				<span class="amarillo">1.</span>CONECTATE AL SITIO CON TU CUENTA DE FACEBOOK O TU CUENTA DE DE LA GRUA
+		          			</h1>
+				  			<!-- facebook login -->
+		          			<a href="#">
+		          				<img src="<?php echo base_url();?>/assets/img/facebook-connect.png" alt="Fb Connect" title="Login with facebook" onclick="FBLogin();"/>
+		          			</a>
+		          		</div>
+				  		<!-- fin facebook login -->
+		       			<form ACTION="<?php echo base_url().'index.php/login/'; ?>" METHOD="POST" id="formsesion" name="formsesion">
+			       			<div class="box-pop">
+						         <!--<h2>Para calificar, tenes que loguearte al sitio.</h2>-->
+								<div class="login-pop">
+						        	<input name="email" type="text" class="input" id="email" placeholder="E-mail" title="E-mail" value="" maxlength="255"><br>
+						        </div>
+			
+						        <div class="login-pop"><input name="clave" type="password" class="input" id="clave" placeholder="Contraseña" title="Contraseña" value="" maxlength="20"><br>
+						          	<a href="<?php echo base_url()?>index.php/login/login_olvide_contrasena/">Olvidé mi contraseña</a>
+						        </div>
+						       
+			       			</div>
+						</form>
+		       			<div class="box-pop">
+		         			<h2>Creá una cuenta en <a href="<?php echo base_url().'index.php/login/crear_cuenta/'?>">delagrua.com</a></h2>
+		         			<h2><a href="<?php echo base_url()?>index.php/terminos/">Términos y Condiciones</a></h2>
+						</div>			
+					</div>
+				</div><!--pop-->
+			</div><!--wrapper-->
+		</div>
+      	<div class="modal-footer">
+        	<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        	<button class="btn btn-primary" href="#" onClick="MM_validateForm('email','','RisEmail','clave','','R');if( document.MM_returnValue){document.formsesion.submit();}">INGRESAR</button>
+      	</div>
+    </div>
+  	</div>
+</div>		
+		
+		
+		
+	
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-54692324-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script>
+function MM_validateForm() { //v4.0
+  if (document.getElementById){
+    var i,p,q,nm,test,num,min,max,errors='',args=MM_validateForm.arguments;
+    for (i=0; i<(args.length-2); i+=3) { test=args[i+2]; val=document.getElementById(args[i]);
+      if (val) { nm=val.name; if ((val=val.value)!="") {
+        if (test.indexOf('isEmail')!=-1) { p=val.indexOf('@');
+          if (p<1 || p==(val.length-1)) errors+= nm+' debe contener un email correcto.\n';
+        } else if (test!='R') { num = parseFloat(val);
+          if (isNaN(val)) errors+='- '+nm+' must contain a number.\n';
+          if (test.indexOf('inRange') != -1) { p=test.indexOf(':');
+            min=test.substring(8,p); max=test.substring(p+1);
+            if (num<min || max<num) errors+='- '+nm+' must contain a number between '+min+' and '+max+'.\n';
+      } } } else if (test.charAt(0) == 'R') errors += nm+' es requerido.\n'; }
+    } if (errors) alert(errors);
+    document.MM_returnValue = (errors == '');
+} }
+function calcular_edad(fecha) {
+var fechaActual = new Date()
+var diaActual = fechaActual.getDate();
+var mmActual = fechaActual.getMonth() + 1;
+var yyyyActual = fechaActual.getFullYear();
+FechaNac = fecha.split("/");
+var diaCumple = FechaNac[0];
+var mmCumple = FechaNac[1];
+var yyyyCumple = FechaNac[2];
+//retiramos el primer cero de la izquierda
+if (mmCumple.substr(0,1) == 0) {
+mmCumple= mmCumple.substring(1, 2);
+}
+//retiramos el primer cero de la izquierda
+if (diaCumple.substr(0, 1) == 0) {
+diaCumple = diaCumple.substring(1, 2);
+}
+var edad = yyyyActual - yyyyCumple;
+
+//validamos si el mes de cumpleaños es menor al actual
+//o si el mes de cumpleaños es igual al actual
+//y el dia actual es menor al del nacimiento
+//De ser asi, se resta un año
+if ((mmActual < mmCumple) || (mmActual == mmCumple && diaActual < diaCumple)) {
+edad--;
+}
+return edad;
+};
+</script>		
+		
+		
+		
+		
+<div id="cambiarClaveModal" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 400px;">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        
+		<div class="wrapper"><!--wrapper-->
+		<div class="cont-pop" style="width: 100%;"><!--pop-->
+			<div class="sup">
+				<img src="<?php echo base_url();?>assets/img/iconos/auto-negro-up.png">
+			</div>
+				<form action="login_cambia_clave/" method="post" id="formsesion" name="formsesion">   
+					<div class="box-pop">
+						<center>
+			         	<div class="login-pop"><input name="clave" type="password" class="input" id="clave" placeholder="Contraseña" title="Contraseña" value="<?php if(isset($_POST['clave'])){ echo ''; }?>" maxlength="50"></div>
+			          	<div class="login-pop"><input name="confirmarclave" type="password" class="input" id="confirmarclave" placeholder="Confirmar Contraseña" title="Confirmar Contraseña" value="<?php if(isset($_POST['confirmarclave'])){ echo ''; }?>" maxlength="50"></div>
+			         	<div class="login-pop">
+				            <input name="MM_update" type="hidden" id="MM_update" value="formguardar">
+				            
+			         	</div>
+			         	</center>
+					</div>
+				</form>
+			</div><!--pop-->
+		</div><!--wrapper-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button class="btn btn-primary" onClick="
+					            MM_validateForm('clave','','R','confirmarclave','','R');
+								if( document.MM_returnValue){
+								    if(document.formsesion.clave.value != document.formsesion.confirmarclave.value) {
+								        alert('La contraseña y la confirmación no coinciden.');
+								        document.formsesion.clave.focus(); 
+								        return false;
+								    } else {
+								        document.formsesion.submit();
+								    }
+								} else 
+								{
+									return document.MM_returnValue;
+								}
+								" >CAMBIAR CLAVE</button>
+							</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+		<?php
+		}
+?>

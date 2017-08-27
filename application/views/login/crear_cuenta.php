@@ -64,6 +64,9 @@ return edad;
 };
 </script>
 
+<div class="col-md-3"></div>
+<div class="col-md-6">
+	<center>
      <div class="cen">
        <div class="box-pop">
           <h1><span class="amarillo">1.</span> CREÁ TU CUENTA DE USUARIO</h1>
@@ -129,10 +132,12 @@ if( document.MM_returnValue){
 </div><!--pop-->
 </div><!--wrapper-->
 
-
+</div>
+</center>
+<div class="col-md-3"></div>
 <!--
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>-->
-<script src="js/main.js"></script>
+
     </body>
 </html>
